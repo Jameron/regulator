@@ -8,7 +8,7 @@ This package has been built to work with Laravel 5.4.33 and later. Some older ve
 
     `composer update`
 
-**NOTE  Laravel 5.5+ users there is auto-discovery so you can ignore the next two steps.
+**NOTE  Laravel 5.5+ users there is auto-discovery so you can ignore steps 2 and 3
 
 2) Update your providers:
 
@@ -24,7 +24,7 @@ This package has been built to work with Laravel 5.4.33 and later. Some older ve
 
 4) Publish the sass, js, and config
 
-    php artisan vendor:publish
+    `php artisan vendor:publish`
 
     **Select the number that coorelates to the jameron/regulator package
 
@@ -32,13 +32,13 @@ This package has been built to work with Laravel 5.4.33 and later. Some older ve
 
 **NOTE: the Regulator package depends on Laravel Auth so if you haven't set it up yet run:
 
-    php artisan make:auth
+    `php artisan make:auth`
 
 **NOTE: DELETE the Auth::routes() from routes/web.php, the Regulator package includes these routes for you.
 
 Alright now go ahead and migrate:
 
-    php artisan migrate
+    `php artisan migrate`
 
 If you get this error
 
