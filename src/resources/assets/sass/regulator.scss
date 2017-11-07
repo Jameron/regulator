@@ -1,0 +1,19 @@
+#successMessage {
+    transition: opacity 5s ease;
+}
+
+#statusMessage {
+    transition: opacity 5s ease;
+}
+
+#errorsMessage {
+    transition: opacity 10s ease;
+}
+
+.fadeout {
+    opacity: 0;
+}
+
+.panel {
+    margin-top: 22px;
+}
