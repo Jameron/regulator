@@ -42,7 +42,6 @@ class RegulatorServiceProvider extends ServiceProvider {
             __DIR__.'/../config/regulator.php' => config_path('regulator.php'),
             __DIR__.'/../resources/assets/js' => resource_path('assets/regulator/js'),
             __DIR__.'/../resources/assets/sass' => resource_path('assets/regulator/sass'),
-            __DIR__.'/../resources/assets/images' => public_path('images'),
         ]);
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'regulator');
