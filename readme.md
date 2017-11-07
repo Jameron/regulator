@@ -22,13 +22,13 @@ This package has been built to work with Laravel 5.4.33 and later. Some older ve
         'Regulator' => Jameron\Regulator\Facades\RegulatorFacade::class,
 ```
 
-4) Publish the sass, js, and config
+4) Publish the sass, js, and config:
 
     php artisan vendor:publish
 
-**Select the number that coorelates to the jameron/regulator package
+**NOTE: Select the number that coorelates to the jameron/regulator package
 
-5) Run your migrations, 
+5) Run your migrations:
 
 **NOTE: the Regulator package depends on Laravel Auth so if you haven't set it up yet run:
 
