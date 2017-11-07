@@ -32,13 +32,13 @@ This package has been built to work with Laravel 5.4.33 and later. Some older ve
 
 **NOTE: the Regulator package depends on Laravel Auth so if you haven't set it up yet run:
 
-    php artisan make:auth
+    ```php artisan make:auth```
 
 **NOTE: DELETE the Auth::routes() from routes/web.php, the Regulator package includes these routes for you.
 
 Alright now go ahead and migrate:
 
-    php artisan migrate
+    ```php artisan migrate```
 
 If you get this error
 
@@ -87,8 +87,8 @@ class User extends Authenticatable
 ```
 9) Make sure you have vuex install
 
-    `npm install vuex --save`
+    ```npm install vuex --save```
 
 10) Compile it up:
 
-    `npm run dev`
+    ```npm run dev```
