@@ -24,7 +24,7 @@ This package has been built to work with Laravel 5.4.33 and later. Some older ve
 
 4) Publish the sass, js, and config:
 
-    php artisan vendor:publish
+    ```php artisan vendor:publish```
 
 **NOTE: Select the number that coorelates to the jameron/regulator package
 
