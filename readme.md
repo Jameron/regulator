@@ -63,7 +63,7 @@ You can call it directly via command line or add it to your applications seeder 
 Added to application seeder
 
 ```php
-      $this->call(\Jameron\Regulator\database\seeds\RegulatorSeeder::class);
+$this->call(\Jameron\Regulator\database\seeds\RegulatorSeeder::class);
 ```
 
 Called via command line:
