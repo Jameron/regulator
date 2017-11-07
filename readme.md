@@ -87,8 +87,8 @@ class User extends Authenticatable
 ```
 9) Make sure you have vuex install
 
-    ```npm install vuex --save```
+    `npm install vuex --save`
 
 10) Compile it up:
 
-    ```npm run dev```
+    `npm run dev`
