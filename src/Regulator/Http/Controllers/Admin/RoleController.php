@@ -138,7 +138,7 @@ class RoleController extends Controller
         $role->slug = $request->get('slug');
         $role->save();
 
-        $role->permissions()->delete()->sync($request->get('permissions'));
+        $role->permissions()->sync($request->get('permissions'));
 
         return redirect('admin/roles')
             ->with('success_message', 'Saved');
