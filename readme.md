@@ -62,7 +62,9 @@ You can call it directly via command line or add it to your applications seeder 
 
 Added to application seeder
 
+```php
       $this->call(\Jameron\Regulator\database\seeds\RegulatorSeeder::class);
+```
 
 Called via command line:
 
@@ -79,9 +81,10 @@ class User extends Authenticatable
 ```
 8) Update your webpack.mix.js file
 
+```javascript
    .js('resources/assets/regulator/js/RegulatorDependencies.js', 'public/js/Regulator.js')
    .sass('resources/assets/regulator/sass/regulator.scss', 'public/css')
-
+```
 9) Make sure you have vuex install
 
     npm install vuex --save
