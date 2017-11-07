@@ -26,7 +26,7 @@ This package has been built to work with Laravel 5.4.33 and later. Some older ve
 
     php artisan vendor:publish
 
-    **Select the number that coorelates to the jameron/regulator package
+**Select the number that coorelates to the jameron/regulator package
 
 5) Run your migrations, 
 
