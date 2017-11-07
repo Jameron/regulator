@@ -1,6 +1,6 @@
 This package has been built to work with Laravel 5.4.33 and later. Some older versions may not be compatible. Let's see if we can't get you up and running in 10 steps. If you are starting fresh, create your laravel application first thing:
 
-    `composer create-project --prefer-dist laravel/laravel blog`
+    composer create-project --prefer-dist laravel/laravel blog
 
 1) Add the package to your compose.json file:
 
