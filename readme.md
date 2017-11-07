@@ -1,8 +1,55 @@
-This package has been built to work with Laravel 5.4.33, later versions may not be compatible.
+This package has been built to work with Laravel 5.4.33 and later. Some older versions may not be compatible. Let's see if we can't get you up and running in 10 steps. If you are starting fresh, create your laravel application first thing:
 
-    composer create-project laravel/laravel your-project-name 5.4.33
+1) Step one create a laravel application if you don't already have one.
 
-You may need to add this to your AppServiceProvider
+    composer create-project --prefer-dist laravel/laravel blog 
+
+
+2) Add the package to your compose.json file:
+
+    "jameron/regulator": "1.0.*",
+
+    composer update
+
+**NOTE  Laravel 5.5+ users there is auto-discovery so you can ignore the next two steps.
+
+2) Update your providers:
+
+```php
+        Jameron\Regulator\RegulatorServiceProvider::class,
+```
+
+3) Update your Facades:
+
+```php
+        'Regulator' => Jameron\Regulator\Facades\RegulatorFacade::class,
+```
+
+4) Publish the sass, js, and config
+
+    php artisan vendor:publish
+
+    **Select the number that coorelates to the jameron/regulator package
+
+5) Run your migrations, 
+
+**NOTE: the Regulator package depends on Laravel Auth so if you haven't set it up yet run:
+
+    php artisan make:auth
+
+**NOTE: DELETE the Auth::routes() from routes/web.php, the Regulator package includes these routes for you.
+
+Alright now go ahead and migrate:
+
+    php artisan migrate
+
+If you get this error
+
+    ```[Illuminate\Database\QueryException]
+  SQLSTATE[42000]: Syntax error or access violation: 1071 Specified key was too long; max key length is 767 bytes (SQL: alter table `users` add unique `users_email_unique`(`email`))``` 
+
+You need to add this to your AppServiceProvider
+
 ```php
 use Illuminate\Support\Facades\Schema;
 
@@ -12,38 +59,19 @@ function boot()
 }
 ```
 
-Add to your providers:
+6) Seed up the database with two roles and a few permissions
 
-```php
-        Jameron\Regulator\RegulatorServiceProvider::class,
-```
-
-Add to your Facades:
-
-```php
-        'Regulator' => Jameron\Regulator\Facades\RegulatorFacade::class,
-```
-
-php artisan vendor:publish
-php artisan migrate
-
-For the seed you can call it directly via command line or add it to your applications seeder file
-
-Called via command line:
-
-```php artisan db:seed --class=\\Jameron\\Regulator\\database\\seeds\\RegulatorSeeder```
+You can call it directly via command line or add it to your applications seeder file:
 
 Added to application seeder
 
       $this->call(\Jameron\Regulator\database\seeds\RegulatorSeeder::class);
 
-**This tries to use native laravel authentication scaffolding as much as possible, however we need to tap into the authenticated method. The least obtrusive way to do this is:
+Called via command line:
 
-php artisan make:auth
+```php artisan db:seed --class=\\Jameron\\Regulator\\database\\seeds\\RegulatorSeeder```
 
-**DELETE the Auth::routes() from  routes/web.pp
-
-Add to your App\User.php
+7) Update your App\User.php
 
 ```php
 
@@ -52,30 +80,15 @@ class User extends Authenticatable
 {
 	use HasRoles;
 ```
-
-
-Next run 
-
-php artisan vendor:publish
-
-Choose the number that coorelates to this package.
-
-If you are using cached configuration files then update cache with
-
-php artisan config:cache
-
-Update your webpack.mix.js file
+8) Update your webpack.mix.js file
 
    .js('resources/assets/regulator/js/RegulatorDependencies.js', 'public/js/Regulator.js')
    .sass('resources/assets/regulator/sass/regulator.scss', 'public/css')
 
+9) Make sure you have vuex install
 
-Notes:
+    npm install vuex --save
 
-***You are gonna wanna migrate the base laravel tables before adding this package to your providers list in app.php
+10) Compile it up:
 
-*** You are gonna wanna delete all your routes in the app web.php file.
-
-Change your resources/views/auth/login layout to this:
-
-     @extends('regulator::layouts.student')
+    npm run dev
