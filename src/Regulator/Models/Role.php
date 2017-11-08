@@ -36,16 +36,6 @@ class Role extends Model
     }
 
     /**
-     * Roles can belong to many different users
-     *
-     * @return Jameron\Regulator\Models\User
-     */
-    public function users()
-    {
-        return $this->belongsToMany('App\User', $this->table_prefix . 'regulator_role_user');
-    }
-
-    /**
      * Roles can belong to many different permissions
      *
      * @return Jameron\Regulator\Models\Permission
