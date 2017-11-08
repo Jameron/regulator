@@ -7,10 +7,10 @@ class CreateRegulatorPermissionsTable extends Migration
 {
     public $table_prefix;
 
-    public function __construct ()
+    public function __construct()
     {
         $this->table_prefix = config('regulator.db_table_prefix');
-        if(!empty($this->table_prefix)) {
+        if (!empty($this->table_prefix)) {
             $this->table_prefix = $this->table_prefix . (substr($this->table_prefix, -1)=='_') ? '' : '_';
         }
     }

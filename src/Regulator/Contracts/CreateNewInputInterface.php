@@ -2,7 +2,8 @@
 
 namespace Jameron\Regulator\Contracts;
 
-interface CreateNewInputInterface {
+interface CreateNewInputInterface
+{
 
     /**
      * Return the name value formatted array of attributes
@@ -11,6 +12,5 @@ interface CreateNewInputInterface {
      * @param  integer $options
      * @return array
      */
-	public function output($input);
-
+    public function output($input);
 }

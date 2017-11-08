@@ -5,20 +5,20 @@ use Jameron\Regulator\Models\Role;
 use Jameron\Model\Traits\PublishedTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Permission extends Model {
-
+class Permission extends Model
+{
     protected $table = 'regulator_permissions';
 
-	/**
-	 * Values that can be automatically filled.
-	 *
-	 * @var array
-	 */
-	protected $fillable = [
-    	'name',
-    	'slug',
-    	'level',
-  	];
+    /**
+     * Values that can be automatically filled.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'slug',
+        'level',
+    ];
 
     protected $table_prefix;
 
@@ -26,7 +26,7 @@ class Permission extends Model {
     {
         parent::__construct($arguments);
         $this->table_prefix = config('regulator.db_table_prefix');
-        if(!empty($this->table_prefix)) {
+        if (!empty($this->table_prefix)) {
             $this->table_prefix = $this->table_prefix . (substr($this->table_prefix, -1)=='_') ? '' : '_';
             $this->table = $this->table_prefix . $this->table;
         }
@@ -37,8 +37,8 @@ class Permission extends Model {
      *
      * @return Jameron\Regulator\Models\Role
      */
-	public function roles()
-	{
-		return $this->belongsToMany('Jameron\Regulator\Models\Role', $this->table_prefix . 'regulator_permission_role');
-	}
+    public function roles()
+    {
+        return $this->belongsToMany('Jameron\Regulator\Models\Role', $this->table_prefix . 'regulator_permission_role');
+    }
 }

@@ -16,9 +16,9 @@ class LoginController extends LaravelLoginController
     | Regulator Login Controller
     |--------------------------------------------------------------------------
     |
-    | This controller extends the native Laravel controller that handles 
+    | This controller extends the native Laravel controller that handles
     | authenticating users for the application and
-    | redirecting them to your home screen. 
+    | redirecting them to your home screen.
     |
     */
 
@@ -36,7 +36,7 @@ class LoginController extends LaravelLoginController
      */
     public function __construct()
     {
-        parent::__construct(); 
+        parent::__construct();
     }
 
     /**
@@ -53,19 +53,13 @@ class LoginController extends LaravelLoginController
             ->first();
 
         if ($user_roles) {
-            
             if (array_key_exists($user_roles->slug, Config::get('regulator.roles'))) {
-
-                $redirectURI = Config::get('regulator.roles')[$user_roles->slug]['loginRedirectURI'];	
-
+                $redirectURI = Config::get('regulator.roles')[$user_roles->slug]['loginRedirectURI'];
             } else {
-
                 $redirectURI = strtolower($user_roles->slug);
-
             }
 
             return redirect($redirectURI);
-
         }
     }
 }

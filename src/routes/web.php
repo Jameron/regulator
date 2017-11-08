@@ -17,14 +17,13 @@ Route::group(['middleware' => 'web', 'before' => 'auth'], function () {
     Route::get('password/reset/{token}', 'App\Http\Controllers\Auth\ResetPasswordController@showResetForm')->name('password.reset');
     Route::post('password/reset', 'App\Http\Controllers\Auth\ResetPasswordController@reset');
 
-    Route::get('/', function() {
+    Route::get('/', function () {
         return redirect('/login');
     });
-
 });
 
 Route::group(['middleware' => ['web', 'auth', 'role:admin']], function () {
-	Route::resource('admin/users', 'Jameron\Regulator\Http\Controllers\Admin\UserController');
-	Route::resource('admin/roles', 'Jameron\Regulator\Http\Controllers\Admin\RoleController');
-	Route::resource('admin/permissions', 'Jameron\Regulator\Http\Controllers\Admin\PermissionController');
+    Route::resource('admin/users', 'Jameron\Regulator\Http\Controllers\Admin\UserController');
+    Route::resource('admin/roles', 'Jameron\Regulator\Http\Controllers\Admin\RoleController');
+    Route::resource('admin/permissions', 'Jameron\Regulator\Http\Controllers\Admin\PermissionController');
 });

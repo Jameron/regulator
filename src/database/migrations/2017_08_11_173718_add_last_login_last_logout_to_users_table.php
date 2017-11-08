@@ -12,7 +12,7 @@ class AddLastLoginLastLogoutToUsersTable extends Migration
             $table->timestamp('last_login')->after('remember_token')->nullable();
             $table->timestamp('last_logout')->after('last_login')->nullable();
             $table->timestamp('verified_at')->after('last_logout')->nullable();
-			$table->boolean('disabled')->after('verified_at')->default(0);
+            $table->boolean('disabled')->after('verified_at')->default(0);
         });
     }
 

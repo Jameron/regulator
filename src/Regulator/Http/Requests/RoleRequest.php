@@ -4,8 +4,8 @@ namespace Jameron\Regulator\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RoleRequest extends FormRequest {
-
+class RoleRequest extends FormRequest
+{
     public function authorize()
     {
         return true;
@@ -13,8 +13,7 @@ class RoleRequest extends FormRequest {
 
     public function rules()
     {
-        switch($this->method())
-        {
+        switch ($this->method()) {
         case 'GET':
         {
         }

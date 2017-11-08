@@ -22,7 +22,6 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-
         $search = ($request->get('search')) ? $request->get('search') : null;
         $sort_by = ($request->get('sortBy')) ? $request->get('sortBy') : 'email';
         $order = ($request->get('order')) ? $request->get('order') : 'ASC';
@@ -38,8 +37,7 @@ class UserController extends Controller
                                     ->orderBy('users.email', $order)
                                     ->paginate(20);
 
-                if(config('session.driver') == 'database') {
-
+                if (config('session.driver') == 'database') {
                     $online_users = DB::table('sessions')
                                             ->where('last_activity', '>', time() - 60)
                                             ->join('users', 'users.id', '=', 'sessions.user_id')
@@ -49,10 +47,8 @@ class UserController extends Controller
 
                     foreach ($users as $user) {
                         if (array_key_exists($user->id, $online_users->toArray())) {
-
                             $user->online = 'yes';
                             $user->last_active = Carbon::createFromTimeStamp($online_users[$user->id], 'America/Los_Angeles')->format('F j, Y g:i:s a');
-
                         } else {
                             $user->online = 'no';
                         }
@@ -72,8 +68,7 @@ class UserController extends Controller
                                     ->distinct()
                                     ->paginate(20);
 
-                    if(config('session.driver') == 'database') {
-
+                    if (config('session.driver') == 'database') {
                         $online_users = DB::table('sessions')
                                             ->where('last_activity', '>', time() - 60)
                                             ->join('users', 'users.id', '=', 'sessions.user_id')
@@ -89,7 +84,6 @@ class UserController extends Controller
                                 $user->online = 'no';
                             }
                         }
-
                     }
 
                     break;
@@ -101,8 +95,7 @@ class UserController extends Controller
                                     ->orderBy('users.name', $order)
                                     ->paginate(20);
 
-                    if(config('session.driver') == 'database') {
-                        
+                    if (config('session.driver') == 'database') {
                         $online_users = DB::table('sessions')
                                             ->where('last_activity', '>', time() - 60)
                                             ->join('users', 'users.id', '=', 'sessions.user_id')
@@ -129,8 +122,7 @@ class UserController extends Controller
                                     ->orderBy('users.email', $order)
                                     ->paginate(20);
 
-                    if(config('session.driver') == 'database') {
-                        
+                    if (config('session.driver') == 'database') {
                         $online_users = DB::table('sessions')
                                             ->where('last_activity', '>', time() - 60)
                                             ->join('users', 'users.id', '=', 'sessions.user_id')
@@ -157,7 +149,7 @@ class UserController extends Controller
                                             ->join('users', 'users.id', '=', 'sessions.user_id')
                                             ->pluck('last_activity', 'user_id');
 
-                    if(config('session.driver') == 'database') {
+                    if (config('session.driver') == 'database') {
                         $user_ids = array_keys($online_users->toArray());
                         $users = User::select('users.*')
                                         ->with('roles')
@@ -179,11 +171,11 @@ class UserController extends Controller
 
                 case 'online':
 
-                    if(config('session.driver') == 'database') {
+                    if (config('session.driver') == 'database') {
                         $online_users = DB::table('sessions')
                                                 ->where('last_activity', '>', time() - 60)
                                                 ->join('users', 'users.id', '=', 'sessions.user_id')
-                                                ->pluck('last_activity','user_id')
+                                                ->pluck('last_activity', 'user_id')
                                                 ;
 
                         $user_ids = array_keys($online_users->toArray());
@@ -194,8 +186,7 @@ class UserController extends Controller
 
                                     //	->paginate(20);
 
-                        foreach($users as $user) {
-
+                        foreach ($users as $user) {
                             if (array_key_exists($user->id, $online_users->toArray())) {
                                 $user->online = 'yes';
                                 $user->last_active = Carbon::createFromTimeStamp($online_users[$user->id], 'America/Los_Angeles')->format('F j, Y g:i:s a');
@@ -283,9 +274,7 @@ class UserController extends Controller
                     $user->online = 'no';
                 }
             }
-
         } else {
-
             $online_users = DB::table('sessions')
                                     ->where('last_activity', '>', time() - 300)
                                     ->join('users', 'users.id', '=', 'sessions.user_id')
@@ -306,7 +295,7 @@ class UserController extends Controller
                 }
             }
         }
-        return view('regulator::admin.users.index', compact('users','search','sort_by','order'));
+        return view('regulator::admin.users.index', compact('users', 'search', 'sort_by', 'order'));
     }
 
     /**
@@ -316,18 +305,16 @@ class UserController extends Controller
      */
     public function create()
     {
-
         $companies = null;
-		$roles = Role::all();
+        $roles = Role::all();
 
-        if(config('enrollments.options.has_companies')) {
-            $companies = Company::pluck('name','id');
+        if (config('enrollments.options.has_companies')) {
+            $companies = Company::pluck('name', 'id');
             $companies->prepend('Select a company', '');
         }
 
 
-        return view('regulator::admin.users.create', compact('companies','roles'));
-
+        return view('regulator::admin.users.create', compact('companies', 'roles'));
     }
 
     /**
@@ -342,16 +329,16 @@ class UserController extends Controller
         $user->name = $request->get('name');
         $user->email = $request->get('email');
 
-        if($request->get('company_id')) {
+        if ($request->get('company_id')) {
             $user->company_id = $request->get('company_id');
         }
 
-		$user->password = bcrypt($request->get('password'));
+        $user->password = bcrypt($request->get('password'));
 
         $user->save();
 
-		$request->roles = ($request->get('roles')) ? $request->get('roles') : [];
-		$user->roles()->sync($request->roles);
+        $request->roles = ($request->get('roles')) ? $request->get('roles') : [];
+        $user->roles()->sync($request->roles);
 
         return redirect('/admin/users')
             ->with('success_message', 'Saved');
@@ -376,18 +363,18 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-       $user = User::where('id', $id)
+        $user = User::where('id', $id)
             ->with('roles')
             ->first();
 
-       $companies = null;
-       if(config('enrollments.options.has_companies')) {
-            $companies = Company::pluck('name','id');
-		    $companies->prepend('Select a company', '');
-       }
-		$roles = Role::all();
+        $companies = null;
+        if (config('enrollments.options.has_companies')) {
+            $companies = Company::pluck('name', 'id');
+            $companies->prepend('Select a company', '');
+        }
+        $roles = Role::all();
 
-       return view('regulator::admin.users.edit', compact('companies', 'user','roles'));
+        return view('regulator::admin.users.edit', compact('companies', 'user', 'roles'));
     }
 
     /**
@@ -403,16 +390,16 @@ class UserController extends Controller
             ->firstOrFail();
         $user->name = $request->get('name');
         $user->email = $request->get('email');
-        if(!empty($request->get('password'))) {
-		    $user->password = bcrypt($request->get('password'));
+        if (!empty($request->get('password'))) {
+            $user->password = bcrypt($request->get('password'));
         }
-        if($request->get('company_id')) {
+        if ($request->get('company_id')) {
             $user->company_id = $request->get('company_id');
         }
         $user->save();
 
-		$request->roles = ($request->get('roles')) ? $request->get('roles') : [];
-		$user->roles()->sync($request->roles);
+        $request->roles = ($request->get('roles')) ? $request->get('roles') : [];
+        $user->roles()->sync($request->roles);
 
         return redirect('/admin/users')
             ->with('success_message', 'Saved');
@@ -426,46 +413,41 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-		$user = User::find($id);
+        $user = User::find($id);
 
-		if ($user) {
-			$user->delete();
-			return redirect('admin/users')->with('success_message', 'User was deleted.');
-		}
+        if ($user) {
+            $user->delete();
+            return redirect('admin/users')->with('success_message', 'User was deleted.');
+        }
     }
 
 
-	// Takes in array of objects
-	public function sortBy($array_of_objects, $sort_by=null, $order, $page) 
-	{
-
+    // Takes in array of objects
+    public function sortBy($array_of_objects, $sort_by=null, $order, $page)
+    {
         $collection = new Collection($array_of_objects);
-		if ($sort_by)
-		{
+        if ($sort_by) {
+            if ($order=='desc') {
+                $sorted = $collection->sortBy(function ($role) use ($sort_by) {
+                    return $role->{$sort_by};
+                })->reverse();
+            } elseif ($order=='asc') {
+                $sorted = $collection->sortBy(function ($role) use ($sort_by) {
+                    return $role->{$sort_by};
+                });
+            }
+        } else {
+            $sorted = $collection;
+        }
 
-			if ($order=='desc') {
-				$sorted = $collection->sortBy(function($role) use ($sort_by)
-				{
-					return $role->{$sort_by};
-				})->reverse();
-			} else if ($order=='asc') {
-				$sorted = $collection->sortBy(function($role) use ($sort_by)
-                {
-					return $role->{$sort_by};
-				});
-			}
-		} else {
-			$sorted = $collection;
-		}
+        $num_per_page = 20;
+        if (!$page) {
+            $page = 1;
+        }
 
-		$num_per_page = 20;
-		if (!$page) {
-			$page = 1;
-		}
+        $offset = ($page - 1) * $num_per_page;
+        $sorted = $sorted->splice($offset, $num_per_page);
 
-		$offset = ( $page - 1) * $num_per_page;
-		$sorted = $sorted->splice($offset, $num_per_page);
-
-		return  new Paginator($sorted, count($array_of_objects), $num_per_page, $page );
-	}
+        return  new Paginator($sorted, count($array_of_objects), $num_per_page, $page);
+    }
 }

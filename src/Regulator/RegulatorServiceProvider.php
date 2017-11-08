@@ -9,12 +9,12 @@ use Jameron\Regulator\Models\Permission;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 
-class RegulatorServiceProvider extends ServiceProvider {
-
-	  protected $package = 'regulator';
-	  protected $routes = '../routes/routes.php';
-      protected $views = '../resources/views';
-      protected $policies = [];
+class RegulatorServiceProvider extends ServiceProvider
+{
+    protected $package = 'regulator';
+    protected $routes = '../routes/routes.php';
+    protected $views = '../resources/views';
+    protected $policies = [];
 
     /**
      * Register the application's policies.
@@ -28,14 +28,13 @@ class RegulatorServiceProvider extends ServiceProvider {
         }
     }
 
-	/**
-	 * Bootstrap the application services.
-	 *
-	 * @return void
-	 */
+    /**
+     * Bootstrap the application services.
+     *
+     * @return void
+     */
     public function boot(GateContract $gate=null, Router $router)
     {
-        
         $router->aliasMiddleware('role', 'Jameron\Regulator\Http\Middleware\RoleMiddleware');
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         $this->publishes([
@@ -46,22 +45,22 @@ class RegulatorServiceProvider extends ServiceProvider {
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'regulator');
         $this->app->make(Factory::class)->load(__DIR__ . '/../database/factories');
-		$this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->registerPolicies($gate);
         if (Schema::hasTable('regulator_permissions')) {
-            foreach($this->getPermissions() as $permission) {
+            foreach ($this->getPermissions() as $permission) {
                 $gate->define($permission->name, function ($user) use ($permission) {
                     return $user->hasRole($permission->roles);
                 });
             }
         }
-     }
+    }
 
-	/*
-	 * Get the collection of permissions with the related roles.
+    /*
+     * Get the collection of permissions with the related roles.
      */
-	protected function getPermissions()
-	{
-		return Permission::with('roles')->get();
-	}
+    protected function getPermissions()
+    {
+        return Permission::with('roles')->get();
+    }
 }

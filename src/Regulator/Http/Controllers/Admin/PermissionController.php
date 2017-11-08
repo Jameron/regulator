@@ -21,7 +21,6 @@ class PermissionController extends Controller
      */
     public function index(Request $request)
     {
-
         $search = ($request->get('search')) ? $request->get('search') : null;
         $sort_by = ($request->get('sortBy')) ? $request->get('sortBy') : 'name';
         $order = ($request->get('order')) ? $request->get('order') : 'ASC';
@@ -48,16 +47,14 @@ class PermissionController extends Controller
 
             }
         } elseif ($search) {
-
             $permissions = Permission::select('regulator_permissions.*')
                 ->orderBy('regulator_permissions.name', $order)
                 ->where(function ($query) use ($search) {
                     $query->where('regulator_permissions.name', 'LIKE', '%'.$search.'%');
                 })->paginate(20);
+        }
 
-        } 
-
-        return view('regulator::admin.permissions.index', compact('permissions','search','sort_by','order'));
+        return view('regulator::admin.permissions.index', compact('permissions', 'search', 'sort_by', 'order'));
     }
 
     /**
@@ -67,9 +64,7 @@ class PermissionController extends Controller
      */
     public function create()
     {
-
         return view('regulator::admin.permissions.create');
-
     }
 
     /**
@@ -108,10 +103,10 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
-       $permission = Permission::where('id', $id)
+        $permission = Permission::where('id', $id)
             ->first();
 
-       return view('regulator::admin.permissions.edit', compact('permission'));
+        return view('regulator::admin.permissions.edit', compact('permission'));
     }
 
     /**
@@ -141,47 +136,41 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
-		$permission = Permission::find($id);
+        $permission = Permission::find($id);
 
-		if ($permission) {
-			$permission->delete();
-			return redirect('admin/permissions')->with('success_message', 'Permission was deleted.');
-
-		}
+        if ($permission) {
+            $permission->delete();
+            return redirect('admin/permissions')->with('success_message', 'Permission was deleted.');
+        }
     }
 
 
-	// Takes in array of objects
-	public function sortBy($array_of_objects, $sort_by=null, $order, $page) 
-	{
-
+    // Takes in array of objects
+    public function sortBy($array_of_objects, $sort_by=null, $order, $page)
+    {
         $collection = new Collection($array_of_objects);
-		if ($sort_by)
-		{
+        if ($sort_by) {
+            if ($order=='desc') {
+                $sorted = $collection->sortBy(function ($role) use ($sort_by) {
+                    return $role->{$sort_by};
+                })->reverse();
+            } elseif ($order=='asc') {
+                $sorted = $collection->sortBy(function ($role) use ($sort_by) {
+                    return $role->{$sort_by};
+                });
+            }
+        } else {
+            $sorted = $collection;
+        }
 
-			if ($order=='desc') {
-				$sorted = $collection->sortBy(function($role) use ($sort_by)
-				{
-					return $role->{$sort_by};
-				})->reverse();
-			} else if ($order=='asc') {
-				$sorted = $collection->sortBy(function($role) use ($sort_by)
-                {
-					return $role->{$sort_by};
-				});
-			}
-		} else {
-			$sorted = $collection;
-		}
+        $num_per_page = 20;
+        if (!$page) {
+            $page = 1;
+        }
 
-		$num_per_page = 20;
-		if (!$page) {
-			$page = 1;
-		}
+        $offset = ($page - 1) * $num_per_page;
+        $sorted = $sorted->splice($offset, $num_per_page);
 
-		$offset = ( $page - 1) * $num_per_page;
-		$sorted = $sorted->splice($offset, $num_per_page);
-
-		return  new Paginator($sorted, count($array_of_objects), $num_per_page, $page );
-	}
+        return  new Paginator($sorted, count($array_of_objects), $num_per_page, $page);
+    }
 }

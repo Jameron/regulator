@@ -46,35 +46,35 @@ $factory->defineAs(Jameron\Regulator\Models\Role::class, 'user', function (Faker
 });
 
 
-$factory->defineAs(Jameron\Regulator\Models\Permission::class, 'view_user_dashboard',function (Faker\Generator $faker) {
+$factory->defineAs(Jameron\Regulator\Models\Permission::class, 'view_user_dashboard', function (Faker\Generator $faker) {
     return [
         'slug' => 'view_user_dashboard',
         'name' => 'View User Dashboard',
     ];
 });
 
-$factory->defineAs(Jameron\Regulator\Models\Permission::class, 'view_admin_dashboard',function (Faker\Generator $faker) {
+$factory->defineAs(Jameron\Regulator\Models\Permission::class, 'view_admin_dashboard', function (Faker\Generator $faker) {
     return [
         'slug' => 'view_admin_dashboard',
         'name' => 'View Admin Dashboard',
     ];
 });
 
-$factory->defineAs(Jameron\Regulator\Models\Permission::class, 'manage_users',function (Faker\Generator $faker) {
+$factory->defineAs(Jameron\Regulator\Models\Permission::class, 'manage_users', function (Faker\Generator $faker) {
     return [
         'slug' => 'manage_users',
         'name' => 'Manage Users',
     ];
 });
 
-$factory->defineAs(Jameron\Regulator\Models\Permission::class, 'view_system_wide_reports',function (Faker\Generator $faker) {
+$factory->defineAs(Jameron\Regulator\Models\Permission::class, 'view_system_wide_reports', function (Faker\Generator $faker) {
     return [
         'slug' => 'view_system_wide_reports',
         'name' => 'View System Wide Reports',
     ];
 });
 
-$factory->defineAs(Jameron\Regulator\Models\Permission::class, 'manage_roles_permissions',function (Faker\Generator $faker) {
+$factory->defineAs(Jameron\Regulator\Models\Permission::class, 'manage_roles_permissions', function (Faker\Generator $faker) {
     return [
         'slug' => 'manage_roles_permissions',
         'name' => 'Manage Roles and Permissions',
@@ -82,9 +82,9 @@ $factory->defineAs(Jameron\Regulator\Models\Permission::class, 'manage_roles_per
 });
 
 
-$factory->defineAs(Jameron\Regulator\Models\Permission::class, 'edit_account_info',function (Faker\Generator $faker) {
+$factory->defineAs(Jameron\Regulator\Models\Permission::class, 'edit_account_info', function (Faker\Generator $faker) {
     return [
         'slug' => 'edit_account_info',
-		'name' => 'Edit Account Info',
+        'name' => 'Edit Account Info',
     ];
 });

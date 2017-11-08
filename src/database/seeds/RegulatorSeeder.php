@@ -14,28 +14,28 @@ class RegulatorSeeder extends Seeder
     public function run()
     {
         // Create an admin role
-		$admin_user = factory(\App\User::class, 'admin')->create();
+        $admin_user = factory(\App\User::class, 'admin')->create();
         $user = factory(\App\User::class, 'user')->create();
 
-		$admin_role = factory(\Jameron\Regulator\Models\Role::class, 'admin')->create();
+        $admin_role = factory(\Jameron\Regulator\Models\Role::class, 'admin')->create();
         $user_role = factory(\Jameron\Regulator\Models\Role::class, 'user')->create();
 
-		$admin_role->assignUser($admin_user);
-		$user_role->assignUser($user);
+        $admin_role->assignUser($admin_user);
+        $user_role->assignUser($user);
 
         // Admin user permissions
-		$view_admin_dashboard_permission = factory(\Jameron\Regulator\Models\Permission::class, 'view_admin_dashboard')->create();
+        $view_admin_dashboard_permission = factory(\Jameron\Regulator\Models\Permission::class, 'view_admin_dashboard')->create();
         $manage_users_permission = factory(\Jameron\Regulator\Models\Permission::class, 'manage_users')->create();
-		$manage_roles_permission = factory(\Jameron\Regulator\Models\Permission::class, 'manage_roles_permissions')->create();
-		$view_system_wide_reports_permission = factory(\Jameron\Regulator\Models\Permission::class, 'view_system_wide_reports')->create();
+        $manage_roles_permission = factory(\Jameron\Regulator\Models\Permission::class, 'manage_roles_permissions')->create();
+        $view_system_wide_reports_permission = factory(\Jameron\Regulator\Models\Permission::class, 'view_system_wide_reports')->create();
 
         // User permissions
-		$view_user_dashboard_permission = factory(\Jameron\Regulator\Models\Permission::class, 'view_user_dashboard')->create();
-		$edit_account_info_permission = factory(\Jameron\Regulator\Models\Permission::class, 'edit_account_info')->create();
+        $view_user_dashboard_permission = factory(\Jameron\Regulator\Models\Permission::class, 'view_user_dashboard')->create();
+        $edit_account_info_permission = factory(\Jameron\Regulator\Models\Permission::class, 'edit_account_info')->create();
 
         // Admin user permissions
-		$admin_role->givePermissionTo($view_admin_dashboard_permission);
-		$admin_role->givePermissionTo($manage_users_permission);
+        $admin_role->givePermissionTo($view_admin_dashboard_permission);
+        $admin_role->givePermissionTo($manage_users_permission);
         $admin_role->givePermissionTo($manage_roles_permission);
         $admin_role->givePermissionTo($view_system_wide_reports_permission);
         $admin_role->givePermissionTo($edit_account_info_permission);
@@ -44,6 +44,6 @@ class RegulatorSeeder extends Seeder
         $user_role->givePermissionTo($view_user_dashboard_permission);
         $user_role->givePermissionTo($edit_account_info_permission);
 
-		return $this;
+        return $this;
     }
 }
