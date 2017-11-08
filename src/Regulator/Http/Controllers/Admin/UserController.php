@@ -31,7 +31,7 @@ class UserController extends Controller
 
             case 'email':
 
-                $user = $this->app->make('App\User');
+                $user = resolve('App\User');
                 $users = $user->select('users.*')
                                     ->with('roles')
                                     ->orderBy('users.email', $order)
@@ -59,7 +59,7 @@ class UserController extends Controller
 
                 case 'role':
 
-                    $user = $this->app->make('App\User');
+                    $user = resolve('App\User');
                     $users = $user->join('regulator_role_user', 'regulator_role_user.user_id', '=', 'users.id')
                                     ->join('regulator_roles', 'regulator_roles.id', '=', 'regulator_role_user.role_id')
                                     ->orderBy('regulator_roles.name', $order)
@@ -90,7 +90,7 @@ class UserController extends Controller
 
                 case 'name':
 
-                    $user = $this->app->make('App\User');
+                    $user = resolve('App\User');
                     $users = $user->select('users.*')
                                     ->with('roles')
                                     ->orderBy('users.name', $order)
@@ -118,7 +118,7 @@ class UserController extends Controller
 
                 case 'email':
 
-                    $user = $this->app->make('App\User');
+                    $user = resolve('App\User');
                     $users = $user->select('users.*')
                                     ->with('roles')
                                     ->orderBy('users.email', $order)
@@ -153,7 +153,7 @@ class UserController extends Controller
 
                     if (config('session.driver') == 'database') {
                         $user_ids = array_keys($online_users->toArray());
-                        $user = $this->app->make('App\User');
+                        $user = resolve('App\User');
                         $users = $user->select('users.*')
                                         ->with('roles')
                                         ->orderBy('users.internal_id', $order)
@@ -183,7 +183,7 @@ class UserController extends Controller
 
                         $user_ids = array_keys($online_users->toArray());
                         
-                        $user = $this->app->make('App\User');
+                        $user = resolve('App\User');
                         $users = $user->select('users.*')
                             ->with('roles')
                             ->get();
@@ -214,7 +214,7 @@ class UserController extends Controller
 
                     $user_ids = array_keys($online_users->toArray());
 
-                    $user = $this->app->make('App\User');
+                    $user = resolve('App\User');
                     $users = $user->select('users.*')
                         ->with('roles')
                         ->orderBy('users.last_login', $order)
@@ -240,7 +240,7 @@ class UserController extends Controller
 
                     $user_ids = array_keys($online_users->toArray());
 
-                    $user = $this->app->make('App\User');
+                    $user = resolve('App\User');
                     $users = $user->select('users.*')
                                     ->with('roles')
                                     ->orderBy('users.disabled', $order)
@@ -258,7 +258,9 @@ class UserController extends Controller
                     break;
             }
         } elseif ($search) {
-            $users = User::select('users.*')
+
+            $user = resolve('App\User');
+            $users = $user->select('users.*')
                             ->with('roles')
                             ->where(function ($query) use ($search) {
                                 $query->where('users.email', 'LIKE', '%'.$search.'%')
@@ -288,7 +290,7 @@ class UserController extends Controller
 
             $user_ids = array_keys($online_users->toArray());
 
-            $user = $this->app->make('App\User');
+            $user = resolve('App\User');
             $users = $user->select('users.*')
                             ->with('roles')
                             ->paginate(20);
@@ -332,7 +334,7 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        $user = $this->app->make('App\User');
+        $user = resolve('App\User');
         $user->name = $request->get('name');
         $user->email = $request->get('email');
 
@@ -370,7 +372,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = $this->app->make('App\User');
+        $user = resolve('App\User');
         $user = $user->where('id', $id)
             ->with('roles')
             ->first();
@@ -394,7 +396,7 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, $id)
     {
-        $user = $this->app->make('App\User');
+        $user = resolve('App\User');
         $user = $user->where('id', $id)
             ->firstOrFail();
         $user->name = $request->get('name');
@@ -422,7 +424,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::find($id);
+        $user = resolve('App\User');
+        $user = $user->find($id);
 
         if ($user) {
             $user->delete();
