@@ -3,7 +3,6 @@
 namespace Jameron\Regulator\Http\Controllers\Admin;
 
 use DB;
-use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -32,7 +31,8 @@ class UserController extends Controller
 
             case 'email':
 
-                $users = User::select('users.*')
+                $user = $this->app->make('App\User');
+                $users = $user->select('users.*')
                                     ->with('roles')
                                     ->orderBy('users.email', $order)
                                     ->paginate(20);
@@ -59,8 +59,8 @@ class UserController extends Controller
 
                 case 'role':
 
-
-                    $users = User::join('regulator_role_user', 'regulator_role_user.user_id', '=', 'users.id')
+                    $user = $this->app->make('App\User');
+                    $users = $user->join('regulator_role_user', 'regulator_role_user.user_id', '=', 'users.id')
                                     ->join('regulator_roles', 'regulator_roles.id', '=', 'regulator_role_user.role_id')
                                     ->orderBy('regulator_roles.name', $order)
                                     ->with('roles')
@@ -90,7 +90,8 @@ class UserController extends Controller
 
                 case 'name':
 
-                    $users = User::select('users.*')
+                    $user = $this->app->make('App\User');
+                    $users = $user->select('users.*')
                                     ->with('roles')
                                     ->orderBy('users.name', $order)
                                     ->paginate(20);
@@ -117,7 +118,8 @@ class UserController extends Controller
 
                 case 'email':
 
-                    $users = User::select('users.*')
+                    $user = $this->app->make('App\User');
+                    $users = $user->select('users.*')
                                     ->with('roles')
                                     ->orderBy('users.email', $order)
                                     ->paginate(20);
@@ -151,7 +153,8 @@ class UserController extends Controller
 
                     if (config('session.driver') == 'database') {
                         $user_ids = array_keys($online_users->toArray());
-                        $users = User::select('users.*')
+                        $user = $this->app->make('App\User');
+                        $users = $user->select('users.*')
                                         ->with('roles')
                                         ->orderBy('users.internal_id', $order)
                                         ->paginate(20);
@@ -180,7 +183,8 @@ class UserController extends Controller
 
                         $user_ids = array_keys($online_users->toArray());
                         
-                        $users = User::select('users.*')
+                        $user = $this->app->make('App\User');
+                        $users = $user->select('users.*')
                             ->with('roles')
                             ->get();
 
@@ -210,7 +214,8 @@ class UserController extends Controller
 
                     $user_ids = array_keys($online_users->toArray());
 
-                    $users = User::select('users.*')
+                    $user = $this->app->make('App\User');
+                    $users = $user->select('users.*')
                         ->with('roles')
                         ->orderBy('users.last_login', $order)
                         ->paginate(20);
@@ -235,7 +240,8 @@ class UserController extends Controller
 
                     $user_ids = array_keys($online_users->toArray());
 
-                    $users = User::select('users.*')
+                    $user = $this->app->make('App\User');
+                    $users = $user->select('users.*')
                                     ->with('roles')
                                     ->orderBy('users.disabled', $order)
                                     ->paginate(20);
@@ -282,7 +288,8 @@ class UserController extends Controller
 
             $user_ids = array_keys($online_users->toArray());
 
-            $users = User::select('users.*')
+            $user = $this->app->make('App\User');
+            $users = $user->select('users.*')
                             ->with('roles')
                             ->paginate(20);
 
@@ -325,7 +332,7 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        $user = new User();
+        $user = $this->app->make('App\User');
         $user->name = $request->get('name');
         $user->email = $request->get('email');
 
@@ -363,7 +370,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::where('id', $id)
+        $user = $this->app->make('App\User');
+        $user = $user->where('id', $id)
             ->with('roles')
             ->first();
 
@@ -386,7 +394,8 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, $id)
     {
-        $user = User::where('id', $id)
+        $user = $this->app->make('App\User');
+        $user = $user->where('id', $id)
             ->firstOrFail();
         $user->name = $request->get('name');
         $user->email = $request->get('email');

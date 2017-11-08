@@ -3,7 +3,6 @@
 namespace Jameron\Regulator\Http\Controllers\Admin;
 
 use DB;
-use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
