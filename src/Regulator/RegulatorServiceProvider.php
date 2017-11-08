@@ -56,7 +56,7 @@ class RegulatorServiceProvider extends ServiceProvider
         }
 
         $this->app->bind('App\User', function ($app) {
-            return new App\User();
+            return new \App\User();
         });
     }
 
