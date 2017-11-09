@@ -10,6 +10,7 @@ $regulator = [
             'loginRedirectURI' => 'admin',
         ],
     ],
+    'user_model' => 'App\Model'
 ];
 
 return $regulator;

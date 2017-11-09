@@ -57,6 +57,16 @@ class Role extends Model
     }
 
     /**
+     * Roles can belong to many different users
+     *
+     * @return Daylight\Regulator\Models\User
+     */
+	public function users()
+	{
+		return $this->belongsToMany(config('regulator.user_model'), $this->table_prefix . 'regulator_role_user');
+	}
+
+    /**
      * Assign an user a role
      *
      * @param string $role

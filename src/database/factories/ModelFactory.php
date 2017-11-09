@@ -10,8 +10,9 @@
 | database. Just tell the factory how a default model should look.
 |
 */
+$user_model = App\User::class;
 
-$factory->defineAs(App\User::class, 'admin', function (Faker\Generator $faker) {
+$factory->defineAs($user_model, 'admin', function (Faker\Generator $faker) {
     return [
         'name' => $faker->firstName . ' ' . $faker->lastName,
         'email' => 'admin@example.com',
@@ -20,7 +21,7 @@ $factory->defineAs(App\User::class, 'admin', function (Faker\Generator $faker) {
     ];
 });
 
-$factory->defineAs(App\User::class, 'user', function (Faker\Generator $faker) {
+$factory->defineAs($user_model, 'user', function (Faker\Generator $faker) {
     return [
         'name' => $faker->firstName . ' ' . $faker->lastName,
         'email' => 'user@example.com',
