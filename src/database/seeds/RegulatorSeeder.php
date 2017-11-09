@@ -14,8 +14,10 @@ class RegulatorSeeder extends Seeder
     public function run()
     {
         // Create an admin role
-        $admin_user = factory(\App\User::class, 'admin')->create();
-        $user = factory(\App\User::class, 'user')->create();
+        $user_model = config('regulator.user_model_class');
+
+        $admin_user = factory($user_model, 'admin')->create();
+        $user = factory($user_model, 'user')->create();
 
         $admin_role = factory(\Jameron\Regulator\Models\Role::class, 'admin')->create();
         $user_role = factory(\Jameron\Regulator\Models\Role::class, 'user')->create();
