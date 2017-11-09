@@ -174,6 +174,11 @@ class UserController extends Controller
 
                 case 'online':
 
+                    $user = resolve('App\User');
+                    $users = $user->select('users.*')
+                        ->with('roles')
+                        ->get();
+
                     if (config('session.driver') == 'database') {
                         $online_users = DB::table('sessions')
                                                 ->where('last_activity', '>', time() - 60)
@@ -183,11 +188,6 @@ class UserController extends Controller
 
                         $user_ids = array_keys($online_users->toArray());
                         
-                        $user = resolve('App\User');
-                        $users = $user->select('users.*')
-                            ->with('roles')
-                            ->get();
-
                                     //	->paginate(20);
 
                         foreach ($users as $user) {
@@ -199,20 +199,14 @@ class UserController extends Controller
                             }
                         }
 
-                        $page = $request->get('page');
-                        $users = $this->sortBy($users, 'online', $order, $page);
                     }
+
+                    $page = $request->get('page');
+                    $users = $this->sortBy($users, 'online', $order, $page);
 
                     break;
 
                 case 'last_login':
-
-                    $online_users = DB::table('sessions')
-                                            ->where('last_activity', '>', time() - 60)
-                                            ->join('users', 'users.id', '=', 'sessions.user_id')
-                                            ->pluck('last_activity', 'user_id');
-
-                    $user_ids = array_keys($online_users->toArray());
 
                     $user = resolve('App\User');
                     $users = $user->select('users.*')
@@ -220,12 +214,22 @@ class UserController extends Controller
                         ->orderBy('users.last_login', $order)
                         ->paginate(20);
 
-                    foreach ($users as $user) {
-                        if (array_key_exists($user->id, $online_users->toArray())) {
-                            $user->online = 'yes';
-                            $user->last_active = Carbon::createFromTimeStamp($online_users[$user->id], 'America/Los_Angeles')->format('F j, Y g:i:s a');
-                        } else {
-                            $user->online = 'no';
+                    if (config('session.driver') == 'database') {
+                        $online_users = DB::table('sessions')
+                            ->where('last_activity', '>', time() - 60)
+                            ->join('users', 'users.id', '=', 'sessions.user_id')
+                            ->pluck('last_activity', 'user_id');
+
+                        $user_ids = array_keys($online_users->toArray());
+
+
+                        foreach ($users as $user) {
+                            if (array_key_exists($user->id, $online_users->toArray())) {
+                                $user->online = 'yes';
+                                $user->last_active = Carbon::createFromTimeStamp($online_users[$user->id], 'America/Los_Angeles')->format('F j, Y g:i:s a');
+                            } else {
+                                $user->online = 'no';
+                            }
                         }
                     }
 
@@ -233,25 +237,28 @@ class UserController extends Controller
 
                 case 'enabled':
 
-                    $online_users = DB::table('sessions')
-                                            ->where('last_activity', '>', time() - 300)
-                                            ->join('users', 'users.id', '=', 'sessions.user_id')
-                                            ->pluck('last_activity', 'user_id');
-
-                    $user_ids = array_keys($online_users->toArray());
-
                     $user = resolve('App\User');
                     $users = $user->select('users.*')
-                                    ->with('roles')
-                                    ->orderBy('users.disabled', $order)
-                                    ->paginate(20);
+                        ->with('roles')
+                        ->orderBy('users.disabled', $order)
+                        ->paginate(20);
 
-                    foreach ($users as $user) {
-                        if (array_key_exists($user->id, $online_users->toArray())) {
-                            $user->online = 'yes';
-                            $user->last_active = Carbon::createFromTimeStamp($online_users[$user->id], 'America/Los_Angeles')->format('F j, Y g:i:s a');
-                        } else {
-                            $user->online = 'no';
+                    if (config('session.driver') == 'database') {
+                        $online_users = DB::table('sessions')
+                                                ->where('last_activity', '>', time() - 300)
+                                                ->join('users', 'users.id', '=', 'sessions.user_id')
+                                                ->pluck('last_activity', 'user_id');
+
+                        $user_ids = array_keys($online_users->toArray());
+
+
+                        foreach ($users as $user) {
+                            if (array_key_exists($user->id, $online_users->toArray())) {
+                                $user->online = 'yes';
+                                $user->last_active = Carbon::createFromTimeStamp($online_users[$user->id], 'America/Los_Angeles')->format('F j, Y g:i:s a');
+                            } else {
+                                $user->online = 'no';
+                            }
                         }
                     }
 
