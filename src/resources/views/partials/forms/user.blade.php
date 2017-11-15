@@ -1,23 +1,23 @@
 <div class="form-group">
     <label>Name: *</label>
-    <input type="text" class="form-control" name="name" value="@if(isset($user)){{$user->name}}@endif">
+    <input type="text" class="form-control @if(config('admin.theme')=='dark')form-control-dark @endif" name="name" value="@if(isset($user)){{$user->name}}@endif">
 </div>
 <div class="form-group">
     <label>Email: *</label>
-    <input type="text" class="form-control" name="email" value="@if(isset($user)){{$user->email}}@endif">
+    <input type="text" class="form-control @if(config('admin.theme')=='dark')form-control-dark @endif" name="email" value="@if(isset($user)){{$user->email}}@endif">
 </div>
 <div class="form-group">
     <label for="password">Password</label>
-    <input type="password" name="password" id="password" class="form-control">
+    <input type="password" name="password" id="password" class="form-control @if(config('admin.theme')=='dark')form-control-dark @endif">
 </div>
 <div class="form-group">
     <label for="confirm">Confirm Password</label>
-    <input type="password" name="password_confirmation" id="confirm" class="form-control">
+    <input type="password" name="password_confirmation" id="confirm" class="form-control @if(config('admin.theme')=='dark')form-control-dark @endif">
 </div>
 @if(config('enrollments.options.has_companies'))
 <div class="form-group">
 	<label>Company<span class="req">*</span></label>
-    <select name="company_id" class="form-control">
+    <select name="company_id" class="form-control @if(config('admin.theme')=='dark')form-control-dark @endif">
         @if(isset($companies))
             @foreach($companies as $id => $company)
                 <option value="{{$id}}" @if(isset($user) && $user->company_id==$id) selected @endif>{{$company}}</option>

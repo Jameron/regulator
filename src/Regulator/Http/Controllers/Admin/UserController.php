@@ -25,7 +25,6 @@ class UserController extends Controller
         $sort_by = ($request->get('sortBy')) ? $request->get('sortBy') : 'email';
         $order = ($request->get('order')) ? $request->get('order') : 'ASC';
 
-        // new
         if (! $search) {
             switch ($sort_by) {
 
@@ -311,6 +310,7 @@ class UserController extends Controller
                 }
             }
         }
+
         return view('regulator::admin.users.index', compact('users', 'search', 'sort_by', 'order'));
     }
 

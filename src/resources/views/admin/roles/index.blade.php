@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
+             <div class="panel @if(config('admin.theme')=='dark')panel-dark @elseif(config('admin.theme')=='light') panel-default @endif">
                     <div class="panel-heading">Roles Index Page</div>
                     <div class="panel-body">
                         @include('admin::partials.utils._success')
