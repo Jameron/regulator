@@ -21,6 +21,8 @@ trait HasRoles
     public function __construct($arguments = [])
     {
         parent::__construct($arguments);
+        $this->dates[] = 'last_login';
+        $this->dates[] = 'last_logout';
         $this->table_prefix = config('regulator.db_table_prefix');
         if (!empty($this->table_prefix)) {
             $this->table_prefix = $this->table_prefix . (substr($this->table_prefix, -1)=='_') ? '' : '_';
