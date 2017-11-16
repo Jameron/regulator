@@ -2,7 +2,8 @@
 
 namespace Jameron\Regulator\Listeners;
 
-use Log;
+use Auth;
+use Carbon\Carbon;
 
 class UserEventSubscriber
 {
@@ -10,14 +11,16 @@ class UserEventSubscriber
      * Handle user login events.
      */
     public function onUserLogin($event) {
-        Log::info('User logged in.');
+        Auth::user()->last_login = Carbon::now();
+        Auth::user()->save();
     }
 
     /**
      * Handle user logout events.
      */
     public function onUserLogout($event) {
-        Log::info('User logged out.');
+        Auth::user()->last_logout = Carbon::now();
+        Auth::user()->save();
     }
 
     /**
