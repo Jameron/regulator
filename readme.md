@@ -92,7 +92,12 @@ class User extends Authenticatable
 	use HasRoles;
 ```
 
-8) Subscribe to the login and logout events to update the users last_login and last_logout timestamp on the user model. Add this to app/Providers/EventServiceProvider
+8) Make sure you are a pro and use database for your sessions:
+```php artisan session:table
+
+php artisan migrate```
+
+9) Subscribe to the login and logout events to update the users last_login and last_logout timestamp on the user model. Add this to app/Providers/EventServiceProvider. 
 
 
 ```php
