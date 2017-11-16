@@ -91,19 +91,29 @@ class User extends Authenticatable
 {
 	use HasRoles;
 ```
-8) Update your webpack.mix.js file
+
+8) Subscribe to the login and logout events to update the users last_login and last_logout timestamp on the user model. Add this to app/Providers/EventServiceProvider
+
+
+```php
+protected $subscribe = [
+\Jameron\Regulator\Listeners\UserEventSubscriber::class,
+];
+```
+
+9) Update your webpack.mix.js file
 
 ```javascript
    .js('resources/assets/regulator/js/RegulatorDependencies.js', 'public/js/Regulator.js')
    .sass('resources/assets/regulator/sass/regulator.scss', 'public/css')
 ```
-9) Make sure you have vuex install
+10) Make sure you have vuex install
 
 ```
 npm install vuex --save
 ```
 
-10) Compile it up:
+11) Compile it up:
 
 ```
 npm run dev
