@@ -4,6 +4,7 @@ namespace Jameron\Regulator;
 
 use Schema;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Jameron\Regulator\Models\Permission;
 use Illuminate\Database\Eloquent\Factory;
@@ -58,6 +59,13 @@ class RegulatorServiceProvider extends ServiceProvider
 
         $this->app->bind('App\User', function ($app) {
             return new \App\User();
+        });
+
+        Event::listen('Illuminate\Auth\Events\Login', function('Jameron\Regulator\Listeners\LoginListener') {
+            // Any other stuff
+        });
+
+        Event::listen('Illuminate\Auth\Events\Logout', function() {
         });
     }
 
