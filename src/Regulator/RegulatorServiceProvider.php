@@ -60,13 +60,6 @@ class RegulatorServiceProvider extends ServiceProvider
         $this->app->bind('App\User', function ($app) {
             return new \App\User();
         });
-
-        Event::listen('Illuminate\Auth\Events\Login', function('Jameron\Regulator\Listeners\LoginListener') {
-            // Any other stuff
-        });
-
-        Event::listen('Illuminate\Auth\Events\Logout', function() {
-        });
     }
 
     /*
