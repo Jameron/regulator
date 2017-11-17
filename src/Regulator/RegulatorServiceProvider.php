@@ -51,7 +51,7 @@ class RegulatorServiceProvider extends ServiceProvider
         $this->registerPolicies($gate);
         if (Schema::hasTable('regulator_permissions')) {
             foreach ($this->getPermissions() as $permission) {
-                $gate->define($permission->name, function ($user) use ($permission) {
+                $gate->define($permission->slug, function ($user) use ($permission) {
                     return $user->hasRole($permission->roles);
                 });
             }
