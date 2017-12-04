@@ -10,7 +10,7 @@
 | database. Just tell the factory how a default model should look.
 |
 */
-$user_model = config('regulator.user_model_class');
+$user_model = config('regulator.user.model');
 $factory->defineAs($user_model, 'admin', function (Faker\Generator $faker) {
     return [
         'name' => $faker->firstName . ' ' . $faker->lastName,

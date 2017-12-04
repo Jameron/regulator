@@ -27,5 +27,4 @@ $regulator = [
         ]
     ]
 ];
-
 return $regulator;

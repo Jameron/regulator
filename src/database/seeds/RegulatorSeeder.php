@@ -14,7 +14,7 @@ class RegulatorSeeder extends Seeder
     public function run()
     {
         // Create an admin role
-        $user_model = config('regulator.user_model_class');
+        $user_model = config('regulator.user.model');
 
         $admin_user = factory($user_model, 'admin')->create();
         $user = factory($user_model, 'user')->create();
