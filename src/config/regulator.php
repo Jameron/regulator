@@ -10,7 +10,6 @@ $regulator = [
             'loginRedirectURI' => 'admin',
         ],
     ],
-
     'user' => [
         'model' => \App\User::class,
     ],
@@ -27,4 +26,5 @@ $regulator = [
         ]
     ]
 ];
+
 return $regulator;
