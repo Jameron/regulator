@@ -14,6 +14,7 @@ use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 
 class UserController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
