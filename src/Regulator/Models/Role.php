@@ -63,7 +63,7 @@ class Role extends Model
      */
 	public function users()
 	{
-		return $this->belongsToMany(config('regulator.user_model'), $this->table_prefix . 'regulator_role_user');
+		return $this->belongsToMany(config('regulator.user.model'), $this->table_prefix . 'regulator_role_user');
 	}
 
     /**
