@@ -1,6 +1,3 @@
-import HideMessage from './HideMessage';
-window.HideMessage = HideMessage;
-
 Vue.component('permissions', require('./components/Regulator/ListPermissions.vue'));
 Vue.component('permission-list-item', require('./components/Regulator/PermissionListItem.vue'));
 
