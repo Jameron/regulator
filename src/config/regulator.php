@@ -23,7 +23,7 @@ $regulator = [
             'placeholder' => 'Search systems',
             'button_text' => 'Search',
 			'icon' => 'search',
-			'route' => 'admin/users/search'
+			'route' => '/admin/users/search'
         ]
     ]
 ];

@@ -271,7 +271,8 @@ class UserController extends Controller
                             ->with('roles')
                             ->where(function ($query) use ($search) {
                                 $query->where('users.email', 'LIKE', '%'.$search.'%')
-                      ->orwhere('users.internal_id', 'LIKE', '%'.$search.'%');
+                                    ->orWhere('users.last_name', 'LIKE', '%'.$search.'%')
+                                    ->orWhere('users.first_name', 'LIKE', '%'.$search.'%');
                             })->paginate(20);
 
             $online_users = DB::table('sessions')
