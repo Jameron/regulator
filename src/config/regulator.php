@@ -10,8 +10,10 @@ $regulator = [
             'loginRedirectURI' => 'admin',
         ],
     ],
-    'user_model' => 'App\User',
-    'user_model_class' => App\User::class,
+
+    'user' => [
+        'model' => \App\User::class,
+    ],
     'display' => [
         'card-header' => 'Users',
         'card-title' => '',
