@@ -14,7 +14,6 @@
                         @include('partials._search', ['search'=> config('regulator.display.search') ])
                     @endif
                     @include('admin::partials.utils._success')
-                    <a href="{{ url('/admin/users/create') }}" class="btn btn-primary">Create</a>
                         <table class="table table-hover">
                             <thead>
                                 <tr>
