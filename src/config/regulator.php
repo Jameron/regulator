@@ -22,7 +22,7 @@ $regulator = [
             'button_text' => 'Search',
 			'icon' => 'search',
 			'route' => 'systems/search'
-        ];
+        ]
     ]
 ];
 
