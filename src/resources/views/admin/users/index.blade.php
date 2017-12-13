@@ -1,17 +1,16 @@
 @extends('admin::layouts.app')
 @section('content')
-<div class="container">
     <div class="row justify-content-md-left">
         <div class="col-12 col-md-12 col-lg-12">
             <div class="card @if(config('admin.theme')=='dark')card-dark @endif" style="margin-top: 1rem;">
                 <h4 class="card-header">
-                    {{ config('regulator.display.card-header') }}
+                    {{ config('regulator.display.users.card-header') }}
                 </h4>
                 <div class="card-body">
-                    <h4 class="card-title"> {{ config('regulator.display.card-title') }} </h4>
-                    <h6 class="card-subtitle mb-2 text-muted"> {{ config('regulator.dispaly.card_subtitle') }} </h6>
-                    @if(config('regulator.display.search')['show'])
-                        @include('partials._search', ['search'=> config('regulator.display.search') ])
+                    <h4 class="card-title"> {{ config('regulator.display.users.card-title') }} </h4>
+                    <h6 class="card-subtitle mb-2 text-muted"> {{ config('regulator.display.users.card_subtitle') }} </h6>
+                    @if(config('regulator.display.users.search')['show'])
+                        @include('partials._search', ['search'=> config('regulator.display.users.search') ])
                     @endif
                     @include('admin::partials.utils._success')
                         <table class="table table-hover">
@@ -95,5 +94,4 @@
                 </div>
             </div>
         </div>
-    </div>
 @endsection

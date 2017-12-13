@@ -1,12 +1,18 @@
 @extends('admin::layouts.app')
 @section('content')
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel @if(config('admin.theme')=='dark')panel-dark @elseif(config('admin.theme')=='light') panel-default @endif">
-                    <div class="panel-heading">Permissions Index Page</div>
-                    <div class="panel-body">
-                        @include('admin::partials.utils._success')
+    <div class="row justify-content-md-left">
+        <div class="col-12 col-md-12 col-lg-12">
+            <div class="card @if(config('admin.theme')=='dark')card-dark @endif" style="margin-top: 1rem;">
+                <h4 class="card-header">
+                    {{ config('regulator.display.permissions.card-header') }}
+                </h4>
+                <div class="card-body">
+                    <h4 class="card-title"> {{ config('regulator.display.permissions.card-title') }} </h4>
+                    <h6 class="card-subtitle mb-2 text-muted"> {{ config('regulator.display.permissions.card_subtitle') }} </h6>
+                    @if(config('regulator.display.permissions.search')['show'])
+                        @include('partials._search', ['search'=> config('regulator.display.permissions.search') ])
+                    @endif
+                    @include('admin::partials.utils._success')
                         <a href="{{ url('/admin/permissions/create') }}" class="btn btn-primary">Create</a>
                         <table class="table table-hover">
                             <thead>

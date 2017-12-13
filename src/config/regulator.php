@@ -3,28 +3,40 @@
 $regulator = [
     'db_table_prefix' => '',
     'roles' => [
-        'user' => [
-            'loginRedirectURI' => 'home',
-        ],
         'admin' => [
-            'loginRedirectURI' => 'admin',
+            'loginRedirectURI' => 'dash',
+        ],
+        'user' => [
+            'loginRedirectURI' => 'dash',
         ],
     ],
+
     'user' => [
-        'model' => \App\User::class,
+        'model' => \App\Models\User::class,
     ],
     'display' => [
-        'card-header' => 'Users',
-        'card-title' => '',
-        'card-subtitle' => '',
-        'search' => [
-            'show' => true,
-            'placeholder' => 'Search systems',
-            'button_text' => 'Search',
-			'icon' => 'search',
-			'route' => '/admin/users/search'
+        'users' => [
+            'card-header' => 'Users',
+            'card-title' => '',
+            'card-subtitle' => '',
+            'search' => [
+                'show' => true,
+                'placeholder' => 'Search systems',
+                'button_text' => 'Search',
+                'icon' => 'search',
+                'route' => '/admin/users/search'
+            ],
+        ],
+        'permissions' => [
+            'card-header' => 'Permissions',
+            'card-title' => '',
+            'card-subtitle' => '',
+        ],
+        'roles' => [
+            'card-header' => 'Roles',
+            'card-title' => '',
+            'card-subtitle' => '',
         ]
     ]
 ];
-
 return $regulator;
