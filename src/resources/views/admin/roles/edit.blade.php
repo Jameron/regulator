@@ -19,3 +19,8 @@
     </div>
 </div>
 @endsection
+@section('js')
+    @if(Auth::check() && Auth::user()->roles()->first()->slug==='admin')
+    <script src="/js/Regulator.js"></script>
+    @endif
+@endsection
