@@ -26,6 +26,8 @@ $regulator = [
                 'icon' => 'search',
                 'route' => '/admin/users/search'
             ],
+            'online_status_identifier' => '<span class="online" style="background: #0c0;width: 20px;height: 20px;border-radius: 50%;"></span>',
+            'offline_status_identifier' => '<span class="offline" style="background: #f00;width: 20px;height: 20px;border-radius: 50%;"></span>'
         ],
         'permissions' => [
             'card-header' => 'Permissions',

@@ -92,6 +92,24 @@ class User extends Authenticatable
 	use HasRoles;
 ```
 
+You will also want these methods on your User model
+```php
+    public function getRoleAttribute()
+    {
+        $roles = [];
+        foreach($this->roles()->get() as $role) {
+            $roles[] = $role->slug;
+        }
+        return implode(',', $roles);
+    } 
+
+    public function getEnabledAttribute()
+    {
+        return ($this->disabled) ? 'no' : 'yes';
+    }
+
+```
+
 8) Make sure you are a pro and use database for your sessions:
 ```php artisan session:table
 

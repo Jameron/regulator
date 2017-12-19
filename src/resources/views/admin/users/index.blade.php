@@ -5,9 +5,16 @@
             {{ config('regulator.display.users.card-header') }}
         @endslot
         @slot('body')
-
             @if(config('regulator.display.users.search')['show'])
+                <div class="row">
+                    <div class="col-md-9">
                 @include('partials._search', ['search'=> config('regulator.display.users.search') ])
+                    <p class="subtle float-right mt-2">Displaying {!! $items->firstItem() !!} - {!! $items->lastItem() !!} of  {!! $items->total() !!} total</p>
+                    @if(!empty($search_string))
+                        <a href="{{ url($resource_route) }}">Clear Search</a>
+                    @endif
+                    </div>
+                </div>
             @endif
             <table class="table table-hover table-responsive table-striped">
                 <thead>
@@ -38,7 +45,7 @@
                                             <a href="{{ url($column['link']['resource_route'] . '/' . $user->{$column['link']['id_column']} ) }}">{{ $user->{$column['column']}  }}</a>
                                         @endif
                                     @else
-                                        {{ $user->{$column['column']}  }}
+                                        {!! $user->{$column['column']}  !!}
                                     @endif
                                 </td>
                             @endforeach
