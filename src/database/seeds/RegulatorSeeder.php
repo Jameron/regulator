@@ -6,11 +6,6 @@ use Illuminate\Database\Seeder;
 
 class RegulatorSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         // Create an admin role
@@ -27,7 +22,8 @@ class RegulatorSeeder extends Seeder
 
         // Admin user permissions
         $view_admin_dashboard_permission = factory(\Jameron\Regulator\Models\Permission::class, 'view_admin_dashboard')->create();
-        $manage_users_permission = factory(\Jameron\Regulator\Models\Permission::class, 'manage_users')->create();
+        $update_users_permission = factory(\Jameron\Regulator\Models\Permission::class, 'update_users')->create();
+        $delete_users_permission = factory(\Jameron\Regulator\Models\Permission::class, 'delete_users')->create();
         $manage_roles_permission = factory(\Jameron\Regulator\Models\Permission::class, 'manage_roles_permissions')->create();
         $view_system_wide_reports_permission = factory(\Jameron\Regulator\Models\Permission::class, 'view_system_wide_reports')->create();
 
@@ -37,7 +33,8 @@ class RegulatorSeeder extends Seeder
 
         // Admin user permissions
         $admin_role->givePermissionTo($view_admin_dashboard_permission);
-        $admin_role->givePermissionTo($manage_users_permission);
+        $admin_role->givePermissionTo($update_users_permission);
+        $admin_role->givePermissionTo($delete_users_permission);
         $admin_role->givePermissionTo($manage_roles_permission);
         $admin_role->givePermissionTo($view_system_wide_reports_permission);
         $admin_role->givePermissionTo($edit_account_info_permission);

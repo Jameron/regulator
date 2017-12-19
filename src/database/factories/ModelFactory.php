@@ -60,10 +60,16 @@ $factory->defineAs(Jameron\Regulator\Models\Permission::class, 'view_admin_dashb
     ];
 });
 
-$factory->defineAs(Jameron\Regulator\Models\Permission::class, 'manage_users', function (Faker\Generator $faker) {
+$factory->defineAs(Jameron\Regulator\Models\Permission::class, 'update_users', function (Faker\Generator $faker) {
     return [
-        'slug' => 'manage_users',
-        'name' => 'Manage Users',
+        'slug' => 'update_users',
+        'name' => 'Update Users',
+    ];
+});
+$factory->defineAs(Jameron\Regulator\Models\Permission::class, 'delete_users', function (Faker\Generator $faker) {
+    return [
+        'slug' => 'delete_users',
+        'name' => 'Delete Users',
     ];
 });
 

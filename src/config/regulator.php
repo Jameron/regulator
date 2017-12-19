@@ -21,8 +21,8 @@ $regulator = [
             'card-subtitle' => '',
             'search' => [
                 'show' => true,
-                'placeholder' => 'Search systems',
-                'button_text' => 'Search',
+                'placeholder' => 'Search users',
+                'button_text' => 'Locate',
                 'icon' => 'search',
                 'route' => '/admin/users/search'
             ],

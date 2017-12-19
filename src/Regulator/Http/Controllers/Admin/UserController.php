@@ -3,6 +3,7 @@
 namespace Jameron\Regulator\Http\Controllers\Admin;
 
 use DB;
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -15,11 +16,54 @@ use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 class UserController extends Controller
 {
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public $columns;
+
+    public function getIndexViewColumns()
+    {
+        if(Auth::user()->roles()->first()->slug=='admin') {
+            $this->columns = collect([
+                [
+                    'column' => 'id',
+                    'label' => 'ID',
+                ],
+                [
+                    'column' => 'first_name',
+                    'label' => 'First Name'
+                ],
+                [
+                    'column' => 'last_name',
+                    'label' => 'Last name'
+                ],
+                [
+                    'column' => 'email',
+                    'label' => 'Email',
+                    'link'=>[
+                        'id_column' => 'id',
+                        'resource_route'=>'users'
+                    ]
+                ],
+                [
+                    'column' => 'role',
+                    'label' => 'Role'
+                ],
+                [
+                    'column' => 'online',
+                    'label' => 'Online'
+                ],
+                [
+                    'column' => 'last_login',
+                    'label' => 'Last login'
+                ],
+                [
+                    'column' => 'enabled',
+                    'label' => 'enabled'
+                ]
+            ]);
+        }
+
+        return $this->columns;
+    }
+
     public function index(Request $request)
     {
         $search = ($request->get('search')) ? $request->get('search') : null;
@@ -88,12 +132,40 @@ class UserController extends Controller
 
                     break;
 
-                case 'name':
+                case 'first_name':
 
                     $user = resolve('App\User');
                     $users = $user->select('users.*')
                                     ->with('roles')
-                                    ->orderBy('users.name', $order)
+                                    ->orderBy('users.first_name', $order)
+                                    ->paginate(20);
+
+                    if (config('session.driver') == 'database') {
+                        $online_users = DB::table('sessions')
+                                            ->where('last_activity', '>', time() - 60)
+                                            ->join('users', 'users.id', '=', 'sessions.user_id')
+                                            ->pluck('last_activity', 'user_id');
+
+                        $user_ids = array_keys($online_users->toArray());
+
+                        foreach ($users as $user) {
+                            if (array_key_exists($user->id, $online_users->toArray())) {
+                                $user->online = 'yes';
+                                $user->last_active = Carbon::createFromTimeStamp($online_users[$user->id], 'America/Los_Angeles')->format('F j, Y g:i:s a');
+                            } else {
+                                $user->online = 'no';
+                            }
+                        }
+                    }
+
+                    break;
+
+                case 'last_name':
+
+                    $user = resolve('App\User');
+                    $users = $user->select('users.*')
+                                    ->with('roles')
+                                    ->orderBy('users.last_name', $order)
                                     ->paginate(20);
 
                     if (config('session.driver') == 'database') {
@@ -144,7 +216,7 @@ class UserController extends Controller
 
                     break;
 
-                case 'internal_id':
+                case 'id':
 
                     $online_users = DB::table('sessions')
                                             ->where('last_activity', '>', time() - 60)
@@ -156,7 +228,7 @@ class UserController extends Controller
                         $user = resolve('App\User');
                         $users = $user->select('users.*')
                                         ->with('roles')
-                                        ->orderBy('users.internal_id', $order)
+                                        ->orderBy('users.id', $order)
                                         ->paginate(20);
 
                         foreach ($users as $user) {
@@ -265,7 +337,6 @@ class UserController extends Controller
                     break;
             }
         } elseif ($search) {
-
             $user = resolve('App\User');
             $users = $user->select('users.*')
                             ->with('roles')
@@ -290,7 +361,9 @@ class UserController extends Controller
                     $user->online = 'no';
                 }
             }
+
         } else {
+
             $online_users = DB::table('sessions')
                                     ->where('last_activity', '>', time() - 300)
                                     ->join('users', 'users.id', '=', 'sessions.user_id')
@@ -312,8 +385,16 @@ class UserController extends Controller
                 }
             }
         }
+        $data = [];
+        $data['search_string'] = $search;
+        $data['sort_by'] = $sort_by;
+        $data['order'] = $order;
+        $data['items'] = $users;
+        $data['resource_route'] = '/admin/users';
+        $data['columns'] = $this->getIndexViewColumns();
 
-        return view('regulator::admin.users.index', compact('users', 'search', 'sort_by', 'order'));
+        return view('regulator::admin.users.index')
+            ->with($data);
     }
 
     /**
@@ -323,15 +404,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $companies = null;
         $roles = Role::all();
-
-        if (config('enrollments.options.has_companies')) {
-            $companies = Company::pluck('name', 'id');
-            $companies->prepend('Select a company', '');
-        }
-
-
         return view('regulator::admin.users.create', compact('companies', 'roles'));
     }
 
@@ -386,14 +459,9 @@ class UserController extends Controller
             ->with('roles')
             ->first();
 
-        $companies = null;
-        if (config('enrollments.options.has_companies')) {
-            $companies = Company::pluck('name', 'id');
-            $companies->prepend('Select a company', '');
-        }
         $roles = Role::all();
 
-        return view('regulator::admin.users.edit', compact('companies', 'user', 'roles'));
+        return view('regulator::admin.users.edit', compact('user', 'roles'));
     }
 
     /**

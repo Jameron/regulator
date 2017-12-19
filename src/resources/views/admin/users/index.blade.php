@@ -1,99 +1,68 @@
 @extends('admin::layouts.app')
 @section('content')
-    <div class="container">
-    <div class="row justify-content-md-left">
-        <div class="col-12 col-md-12 col-lg-12">
-            <div class="card @if(config('admin.theme')=='dark')card-dark @endif" style="margin-top: 1rem;">
-                <h4 class="card-header">
-                    {{ config('regulator.display.users.card-header') }}
-                </h4>
-                <div class="card-body">
-                    <h4 class="card-title"> {{ config('regulator.display.users.card-title') }} </h4>
-                    <h6 class="card-subtitle mb-2 text-muted"> {{ config('regulator.display.users.card_subtitle') }} </h6>
-                    @if(config('regulator.display.users.search')['show'])
-                        @include('partials._search', ['search'=> config('regulator.display.users.search') ])
-                    @endif
-                    @include('admin::partials.utils._success')
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    @include('admin::partials.utils._sortable_column', 
-                                    [
-                                        'th' => 'Name', 
-                                        'url' => url('admin/users?sortBy=name&search=' . $search), 
-                                        'column' => 'name' 
-                                        ])
-                                        @include('admin::partials.utils._sortable_column', 
-                                        [
-                                            'th' => 'Email', 
-                                            'url' => url('admin/users?sortBy=email&search=' . $search), 
-                                            'column' => 'email' 
-                                            ])
-                                            @include('admin::partials.utils._sortable_column', 
-                                            [
-                                                'th' => 'Role(s)', 
-                                                'url' => url('admin/users?sortBy=role&search=' . $search), 
-                                                'column' => 'role' 
-                                                ])
-                                                @if(config('session.driver') == 'database') 
-                                                    @include('admin::partials.utils._sortable_column', 
-                                                    [
-                                                        'th' => 'Online', 
-                                                        'url' => url('admin/users?sortBy=online&search=' . $search), 
-                                                        'column' => 'online' 
-                                                        ])
-                                                        @include('admin::partials.utils._sortable_column', 
-                                                        [
-                                                            'th' => 'Last Login', 
-                                                            'url' => url('admin/users?sortBy=last_login&search=' . $search), 
-                                                            'column' => 'last_login' 
-                                                            ])
-                                                        @endif
-                                                        @include('admin::partials.utils._sortable_column', 
-                                                        [
-                                                            'th' => 'Enabled', 
-                                                            'url' => url('admin/users?sortBy=enabled&search=' . $search), 
-                                                            'column' => 'enabled' 
-                                                            ])
-                                                            <th>Edit</th>
-                                                            <th>Delete</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($users as $user)
-                                    <tr>
-                                        <td><a href="{{ url('admin/users/' . $user->id . '/edit' ) }}">{{ $user->name }}</a></td>
-                                        <td><a href="{{ url('admin/users/' . $user->id . '/edit' ) }}">{{ $user->email }}</a></td>
-                                        <td>
-                                            @if(count($user->roles))
-                                                @foreach($user->roles as $count => $role)
-                                                    {!! $role->slug !!}@if($count < count($user->roles) && count($user->roles) !==1 && (($count+1) !==count($user->roles))), @endif
-                                                @endforeach
-                                            @endif
-                                        </td>
-                                        @if(config('session.driver') == 'database') 
-                                            <td>{!! ($user->online=='yes') ? '<span class="online" style="background: #0c0;width: 20px;height: 20px;border-radius: 50%;"></span> Yes' : '<span class="offline" style="background: #f00;width: 20px;height: 20px;border-radius: 50%;"></span> No'  !!} </td>
-                                            <td>{{ (!empty($user->last_login)) ? $user->last_login->tz('America/Los_Angeles')->format('n/j/Y h:i a') : 'N/A' }} </td>
+
+    @component('partials._card')
+        @slot('header')
+            Users
+        @endslot
+        @slot('body')
+
+            @if(config('regulator.display.users.search')['show'])
+                @include('partials._search', ['search'=> config('regulator.display.users.search') ])
+            @endif
+            <table class="table table-hover table-responsive table-striped">
+                <thead>
+                    <tr>
+                    @foreach($columns as $key => $column)
+                        @include('admin::partials.utils._sortable_column', 
+                        [
+                            'th' => $column['label'], 
+                            'url' => url($resource_route . '?sortBy=' . $column['column'] . '&search=' . $search_string), 
+                            'column' => $column['column']
+                            ])
+                    @endforeach
+                        @include('admin::partials.utils._sortable_column', 
+                        [
+                            'th' => 'Option', 
+                            'url' => null, 
+                            'column' => null 
+                            ])
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($items as $user)
+                        <tr>
+                            @foreach($columns as $key => $column)
+                            <td data-column="{{ $column['column'] }}">
+                                @if(isset($column['link']))
+                                    @if(isset($column['link']) && isset($column['link']['resource_route']))
+                                        <a href="{{ url($column['link']['resource_route'] . '/' . $user->{$column['link']['id_column']} ) }}">{{ $user->{$column['column']}  }}</a>
+                                    @endif
+                                @else
+                                    {{ $user->{$column['column']}  }}
+                                @endif
+                            </td>
+                            @endforeach
+                            <td>
+                                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                    <div class="btn-group mr-2" role="group" aria-label="First group">
+                                        @if(Gate::check('update_owned_systems') || Gate::check('update_all_systems'))
+                                            <a href="{{ url('systems/' . $user->id . '/edit' ) }}" class="btn btn-sm btn-secondary"><i class="fa fa-edit"></i></a>
                                         @endif
-                                        <td>@if($user->disabled) No @else Yes @endif</td>
-                                        <td><a href="{{ url('admin/users/' . $user->id . '/edit' ) }}">Edit</a></td>
-                                        <td>
-                                            <form action="{{ url('/admin/users/' . $user->id) }}" method="POST">
-                                                <input type="hidden" name="_method" value="DELETE"> 
-                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                <button type="submit" class="btn btn-link"><span>Delete</span></button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <div class="table-footer">
-                            {!! $users->appends(['sortBy' => $sort_by, 'order' => $order])->render() !!}
-                        </div>
-                    </div>
-                </div>
+                                        @if(Gate::check('delete_owned_systems') || Gate::check('delete_all_systems'))
+                                            <a href="{{ url('systems/' . $user->id . '/delete' ) }}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <div class="table-footer">
+                {!! $items->appends(['sortBy' => $sort_by, 'order' => $order])->render() !!}
             </div>
-        </div>
-    </div>
+        @endslot
+    @endcomponent
+
 @endsection

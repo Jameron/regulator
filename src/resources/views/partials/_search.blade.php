@@ -1,6 +1,10 @@
-<form action="{{ $search['route'] }}" method="POST" class="form-inline">
+<form action="{{ $search['route'] }}" method="GET">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <label class="sr-only" for="inlineFormInputName2">Search</label>
-    <input type="text" name="search" class="form-control @if(config('admin.theme')=='dark')form-control-dark @endif" placeholder="{{ $search['placeholder'] }}">
-    <button type="submit" class="btn btn-primary">@if(isset($search['icon']))<i class="fa fa-{{ $search['icon']}}" aria-hidden="true"></i>@endif {{$search['button_text']}}</button>
+    <div class="input-group">
+        <input type="text" name="search_string" class="form-control @if(config('admin.theme')=='dark')form-control-dark @endif col-md-9" placeholder="{{ $search['placeholder'] }}" aria-label="Search for..." value="@if($search_string){{ ($search_string) }}@endif">
+        <span class="input-group-btn">
+            <button class="btn btn-secondary" type="submit">@if(isset($search['icon']))<i class="fa fa-{{ $search['icon']}}" aria-hidden="true"></i>@endif {{$search['button_text']}}</button>
+        </span>
+    </div>
 </form>
