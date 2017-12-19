@@ -37,6 +37,7 @@ class LoginController extends LaravelLoginController
     public function __construct()
     {
         parent::__construct();
+        $this->redirectTo = Config::get('regulator.roles')[$user_roles->slug]['loginRedirectURI'];
     }
 
     /**
