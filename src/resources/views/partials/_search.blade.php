@@ -1,4 +1,4 @@
-<form action="{{ $search['route'] }}" method="GET">
+<form action="{{ $search['route'] }}" method="GET" class="mb-4">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <label class="sr-only" for="inlineFormInputName2">Search</label>
     <div class="input-group">
