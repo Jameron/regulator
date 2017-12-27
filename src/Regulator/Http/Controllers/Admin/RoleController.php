@@ -3,6 +3,7 @@
 namespace Jameron\Regulator\Http\Controllers\Admin;
 
 use DB;
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -62,7 +63,7 @@ class RoleController extends Controller
                 ->orderBy($sort_by, $order);
         }
 
-        $systems = $systems->paginate(config('admin.paginate.count'));
+        $roles = $roles->paginate(config('admin.paginate.count'));
 
         $data = [];
         $data['search_string'] = $search;

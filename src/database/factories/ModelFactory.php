@@ -60,6 +60,19 @@ $factory->defineAs(Jameron\Regulator\Models\Permission::class, 'view_admin_dashb
     ];
 });
 
+// User permissions
+$factory->defineAs(Jameron\Regulator\Models\Permission::class, 'create_users', function (Faker\Generator $faker) {
+    return [
+        'slug' => 'create_users',
+        'name' => 'Create Users',
+    ];
+});
+$factory->defineAs(Jameron\Regulator\Models\Permission::class, 'read_users', function (Faker\Generator $faker) {
+    return [
+        'slug' => 'read_users',
+        'name' => 'Read Users',
+    ];
+});
 $factory->defineAs(Jameron\Regulator\Models\Permission::class, 'update_users', function (Faker\Generator $faker) {
     return [
         'slug' => 'update_users',
@@ -72,6 +85,59 @@ $factory->defineAs(Jameron\Regulator\Models\Permission::class, 'delete_users', f
         'name' => 'Delete Users',
     ];
 });
+
+// Role permissions
+$factory->defineAs(Jameron\Regulator\Models\Permission::class, 'create_roles', function (Faker\Generator $faker) {
+    return [
+        'slug' => 'create_roles',
+        'name' => 'Create Roles',
+    ];
+});
+$factory->defineAs(Jameron\Regulator\Models\Permission::class, 'read_roles', function (Faker\Generator $faker) {
+    return [
+        'slug' => 'read_roles',
+        'name' => 'Read Roles',
+    ];
+});
+$factory->defineAs(Jameron\Regulator\Models\Permission::class, 'update_roles', function (Faker\Generator $faker) {
+    return [
+        'slug' => 'update_roles',
+        'name' => 'Update Roles',
+    ];
+});
+$factory->defineAs(Jameron\Regulator\Models\Permission::class, 'delete_roles', function (Faker\Generator $faker) {
+    return [
+        'slug' => 'delete_roles',
+        'name' => 'Delete Roles',
+    ];
+});
+
+// Permission permissions
+$factory->defineAs(Jameron\Regulator\Models\Permission::class, 'create_permissions', function (Faker\Generator $faker) {
+    return [
+        'slug' => 'create_permissions',
+        'name' => 'Create Permissions',
+    ];
+});
+$factory->defineAs(Jameron\Regulator\Models\Permission::class, 'read_permissions', function (Faker\Generator $faker) {
+    return [
+        'slug' => 'read_permissions',
+        'name' => 'Read Permissions',
+    ];
+});
+$factory->defineAs(Jameron\Regulator\Models\Permission::class, 'update_permissions', function (Faker\Generator $faker) {
+    return [
+        'slug' => 'update_permissions',
+        'name' => 'Update Permissions',
+    ];
+});
+$factory->defineAs(Jameron\Regulator\Models\Permission::class, 'delete_permissions', function (Faker\Generator $faker) {
+    return [
+        'slug' => 'delete_permissions',
+        'name' => 'Delete Permissions',
+    ];
+});
+
 
 $factory->defineAs(Jameron\Regulator\Models\Permission::class, 'view_system_wide_reports', function (Faker\Generator $faker) {
     return [

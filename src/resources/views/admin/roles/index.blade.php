@@ -11,7 +11,7 @@
                 @include('admin::partials._search', ['search'=> config('regulator.role.index.search') ])
                     <p class="subtle float-right mt-2">Displaying {!! $items->firstItem() !!} - {!! $items->lastItem() !!} of  {!! $items->total() !!} total</p>
                     @if(!empty($search_string))
-                        <a href="{{ url($resource_route) }}">Clear Search</a>
+                        <a href="{{ url(config('regulator.role.resource_route')) }}">Clear Search</a>
                     @endif
                     </div>
                 </div>
@@ -23,7 +23,7 @@
                             @include('admin::partials.utils._sortable_column', 
                             [
                                 'th' => $column['label'], 
-                                'url' => url($resource_route . '?sortBy=' . $column['column'] . '&search=' . $search_string), 
+                                'url' => url(config('regulator.role.resource_route') . '?sortBy=' . $column['column'] . '&search=' . $search_string), 
                                 'column' => $column['column']
                                 ])
                             @endforeach
@@ -45,17 +45,17 @@
                                             <a href="{{ url($column['link']['resource_route'] . '/' . $item->{$column['link']['id_column']} ) }}">{{ $item->{$column['column']}  }}</a>
                                         @endif
                                     @else
-                                        {!! $user->{$column['column']}  !!}
+                                        {!! $item->{$column['column']}  !!}
                                     @endif
                                 </td>
                             @endforeach
                             <td>
                                 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                                     <div class="btn-group mr-2" role="group" aria-label="First group">
-                                        @if(Gate::check('update_users'))
+                                        @if(Gate::check('update_roles'))
                                             <a href="{{ url( config('regulator.role.resource_route') . $item->id . '/edit' ) }}" class="btn btn-sm btn-secondary"><i class="fa fa-edit"></i></a>
                                         @endif
-                                        @if(Gate::check('delete_users') )
+                                        @if(Gate::check('delete_roles') )
                                             <a href="{{ url( config('regulator.role.resource_route') . $item->id . '/delete' ) }}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
                                         @endif
                                     </div>

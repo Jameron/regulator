@@ -3,6 +3,7 @@
 namespace Jameron\Regulator\Http\Controllers\Admin;
 
 use DB;
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -57,6 +58,7 @@ class PermissionController extends Controller
                 ->orderBy($sort_by, $order);
         }
 
+        $permissions = $permissions->paginate(config('admin.paginate.count'));
         $data = [];
         $data['search_string'] = $search;
         $data['sort_by'] = $sort_by;
