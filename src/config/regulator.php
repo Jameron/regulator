@@ -10,12 +10,10 @@ $regulator = [
             'loginRedirectURI' => 'dash',
         ],
     ],
-
     'user' => [
         'model' => \App\Models\User::class,
-    ],
-    'display' => [
-        'users' => [
+        'resource_route' => 'users',
+        'index' => [
             'card-header' => 'Users',
             'card-title' => '',
             'card-subtitle' => '',
@@ -24,21 +22,27 @@ $regulator = [
                 'placeholder' => 'Search users',
                 'button_text' => 'Locate',
                 'icon' => 'search',
-                'route' => '/admin/users/search'
             ],
-            'online_status_identifier' => '<span class="online" style="background: #0c0;width: 20px;height: 20px;border-radius: 50%;"></span>',
-            'offline_status_identifier' => '<span class="offline" style="background: #f00;width: 20px;height: 20px;border-radius: 50%;"></span>'
+            'online_status_identifier' => '<span class="online"></span>',
+            'offline_status_identifier' => '<span class="offline"></span>'
         ],
-        'permissions' => [
+    ],
+    'role' => [
+        'resource_route' => 'roles',
+        'index' => [
+            'card-header' => 'Roles',
+            'card-title' => '',
+            'card-subtitle' => '',
+        ],
+    ],
+    'permission' => [
+        'resource_route' => 'permissions',
+        'index' => [
             'card-header' => 'Permissions',
             'card-title' => '',
             'card-subtitle' => '',
         ],
-        'roles' => [
-            'card-header' => 'Roles',
-            'card-title' => '',
-            'card-subtitle' => '',
-        ]
     ]
 ];
+
 return $regulator;

@@ -1,11 +1,11 @@
 @extends('admin::layouts.app')
 @section('content')
-    @component('partials._card')
+    @component('admin::partials._card')
         @slot('header')
-            {{ config('regulator.display.users.card-header') }}
+            {{ config('regulator.user.index.card-header') }}
         @endslot
         @slot('body')
-            @if(config('regulator.display.users.search')['show'])
+            @if(config('regulator.user.index.search')['show'])
                 <div class="row">
                     <div class="col-md-9">
                 @include('partials._search', ['search'=> config('regulator.display.users.search') ])

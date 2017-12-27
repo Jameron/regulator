@@ -23,8 +23,8 @@ Route::group(['middleware' => 'web', 'before' => 'auth'], function () {
 });
 
 Route::group(['middleware' => ['web', 'auth', 'role:admin']], function () {
-    Route::get('admin/users/search', 'Jameron\Regulator\Http\Controllers\Admin\UserController@index');
-    Route::resource('admin/users', 'Jameron\Regulator\Http\Controllers\Admin\UserController');
-    Route::resource('admin/roles', 'Jameron\Regulator\Http\Controllers\Admin\RoleController');
-    Route::resource('admin/permissions', 'Jameron\Regulator\Http\Controllers\Admin\PermissionController');
+    Route::get(config('regulator.user.resource_route') . '/search', 'Jameron\Regulator\Http\Controllers\Admin\UserController@index');
+    Route::resource(config('regulator.user.resource_route'), 'Jameron\Regulator\Http\Controllers\Admin\UserController');
+    Route::resource(config('regulator.role.resource_route'), 'Jameron\Regulator\Http\Controllers\Admin\RoleController');
+    Route::resource(config('regulator.permission.resource_route'), 'Jameron\Regulator\Http\Controllers\Admin\PermissionController');
 });

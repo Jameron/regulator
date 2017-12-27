@@ -251,6 +251,7 @@ class UserController extends Controller
                 $users = $this->setOnlineStatus($users);
             }
         }
+
         $data = [];
         $data['search_string'] = $search;
         $data['sort_by'] = $sort_by;

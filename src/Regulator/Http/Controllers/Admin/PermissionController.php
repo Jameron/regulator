@@ -13,6 +13,26 @@ use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 
 class PermissionController extends Controller
 {
+    public $columns;
+
+    public function getIndexViewColumns()
+    {
+        if (Auth::user()->roles()->first()->slug=='admin') {
+            $this->columns = collect([
+                [
+                    'column' => 'id',
+                    'label' => 'ID',
+                ],
+                [
+                    'column' => 'name',
+                    'label' => 'Name'
+                ]
+            ]);
+        }
+
+        return $this->columns;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -24,36 +44,28 @@ class PermissionController extends Controller
         $sort_by = ($request->get('sortBy')) ? $request->get('sortBy') : 'name';
         $order = ($request->get('order')) ? $request->get('order') : 'ASC';
 
-        // new
-        if (! $search) {
-            switch ($sort_by) {
+        $permissions = Permission::select('regulator_permissions.*');
 
-            case 'name':
-
-                $permissions = Permission::select('regulator_permissions.*')
-                                    ->orderBy('regulator_permissions.name', $order)
-                                    ->paginate(20);
-
-                break;
-
-            case 'slug':
-
-                $permissions = Permission::select('regulator_permissions.*')
-                    ->orderBy('regulator_permissions.slug', $order)
-                    ->paginate(20);
-
-                break;
-
-            }
-        } elseif ($search) {
-            $permissions = Permission::select('regulator_permissions.*')
-                ->orderBy('regulator_permissions.name', $order)
-                ->where(function ($query) use ($search) {
-                    $query->where('regulator_permissions.name', 'LIKE', '%'.$search.'%');
-                })->paginate(20);
+        if ($search) {
+            $permissions = $permissions->where(function ($query) use ($search) {
+                $query->where('regulator_permissions.name', 'LIKE', '%'.$search.'%');
+            });
         }
 
-        return view('regulator::admin.permissions.index', compact('permissions', 'search', 'sort_by', 'order'));
+        if ($sort_by) {
+            $permissions = $permissions
+                ->orderBy($sort_by, $order);
+        }
+
+        $data = [];
+        $data['search_string'] = $search;
+        $data['sort_by'] = $sort_by;
+        $data['order'] = $order;
+        $data['items'] = $permissions;
+        $data['columns'] = $this->getIndexViewColumns();
+
+        return view('regulator::admin.permissions.index')
+            ->with($data);
     }
 
     /**

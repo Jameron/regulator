@@ -14,6 +14,30 @@ use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 
 class RoleController extends Controller
 {
+    public $columns;
+
+    public function getIndexViewColumns()
+    {
+        if (Auth::user()->roles()->first()->slug=='admin') {
+            $this->columns = collect([
+                [
+                    'column' => 'id',
+                    'label' => 'ID',
+                ],
+                [
+                    'column' => 'name',
+                    'label' => 'Name'
+                ],
+                [
+                    'column' => 'slug',
+                    'label' => 'Slug'
+                ]
+            ]);
+        }
+
+        return $this->columns;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -25,36 +49,30 @@ class RoleController extends Controller
         $sort_by = ($request->get('sortBy')) ? $request->get('sortBy') : 'name';
         $order = ($request->get('order')) ? $request->get('order') : 'ASC';
 
-        // new
-        if (! $search) {
-            switch ($sort_by) {
+        $roles = Role::select('regulator_roles.*');
 
-            case 'name':
-
-                $roles = Role::select('regulator_roles.*')
-                                    ->orderBy('regulator_roles.name', $order)
-                                    ->paginate(20);
-
-                break;
-
-            case 'slug':
-
-                $roles = Role::select('regulator_roles.*')
-                    ->orderBy('regulator_roles.slug', $order)
-                    ->paginate(20);
-
-                break;
-
-            }
-        } elseif ($search) {
-            $roles = Role::select('regulator_roles.*')
-                ->orderBy('regulator_roles.name', $order)
-                ->where(function ($query) use ($search) {
-                    $query->where('regulator_roles.name', 'LIKE', '%'.$search.'%');
-                })->paginate(20);
+        if ($search) {
+            $roles = $roles->where(function ($query) use ($search) {
+                $query->where('regulator_roles.name', 'LIKE', '%'.$search.'%');
+            });
         }
 
-        return view('regulator::admin.roles.index', compact('roles', 'search', 'sort_by', 'order'));
+        if ($sort_by) {
+            $roles = $roles
+                ->orderBy($sort_by, $order);
+        }
+
+        $systems = $systems->paginate(config('admin.paginate.count'));
+
+        $data = [];
+        $data['search_string'] = $search;
+        $data['sort_by'] = $sort_by;
+        $data['order'] = $order;
+        $data['items'] = $roles;
+        $data['columns'] = $this->getIndexViewColumns();
+
+        return view('regulator::admin.roles.index')
+            ->with($data);
     }
 
     /**
