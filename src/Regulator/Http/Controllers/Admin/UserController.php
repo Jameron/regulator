@@ -15,12 +15,11 @@ use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 
 class UserController extends Controller
 {
-
     public $columns;
 
     public function getIndexViewColumns()
     {
-        if(Auth::user()->roles()->first()->slug=='admin') {
+        if (Auth::user()->roles()->first()->slug=='admin') {
             $this->columns = collect([
                 [
                     'column' => 'id',
@@ -64,7 +63,7 @@ class UserController extends Controller
         return $this->columns;
     }
 
-    public function setOnlineStatus($users)
+    public function setOnlineStatus($users, $page = null)
     {
         $online_users = DB::table('sessions')
             ->where('last_activity', '>', time() - 60)
@@ -81,6 +80,10 @@ class UserController extends Controller
                 $user->online = config('regulator.display.users.offline_status_identifier');
             }
         }
+
+        if ($page) {
+            $users = $this->sortBy($users, 'online', $order, $page);
+        }
         return $users;
     }
 
@@ -89,6 +92,7 @@ class UserController extends Controller
         $search = ($request->get('search_string')) ? $request->get('search_string') : null;
         $sort_by = ($request->get('sortBy')) ? $request->get('sortBy') : 'email';
         $order = ($request->get('order')) ? $request->get('order') : 'ASC';
+        $page = ($request->get('page')) ? $request->get('page') : null;
 
         if (! $search) {
             switch ($sort_by) {
@@ -102,9 +106,7 @@ class UserController extends Controller
                                     ->paginate(20);
 
                 if (config('session.driver') == 'database') {
-
                     $users = $this->setOnlineStatus($users);
-                    
                 }
 
                     break;
@@ -191,7 +193,6 @@ class UserController extends Controller
 
                     if (config('session.driver') == 'database') {
                         $users = $this->setOnlineStatus($users);
-
                     }
 
                     $page = $request->get('page');
@@ -240,9 +241,7 @@ class UserController extends Controller
             if (config('session.driver') == 'database') {
                 $users = $this->setOnlineStatus($users);
             }
-
         } else {
-
             $user = resolve('App\User');
             $users = $user->select('users.*')
                             ->with('roles')
@@ -377,8 +376,6 @@ class UserController extends Controller
         }
     }
 
-
-    // Takes in array of objects
     public function sortBy($array_of_objects, $sort_by=null, $order, $page)
     {
         $collection = new Collection($array_of_objects);

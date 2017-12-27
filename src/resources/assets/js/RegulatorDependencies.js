@@ -13,9 +13,7 @@ const store = new Vuex.Store({
 			state.role = role;
         },
 		setPermissions: (state, permissions) => {
-
 			state.permissions = permissions;
-
 		},
 		setExistingPermissions: (state, permissions) => {
 

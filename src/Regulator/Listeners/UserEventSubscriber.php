@@ -10,7 +10,8 @@ class UserEventSubscriber
     /**
      * Handle user login events.
      */
-    public function onUserLogin($event) {
+    public function onUserLogin($event)
+    {
         Auth::user()->last_login = Carbon::now();
         Auth::user()->save();
     }
@@ -18,7 +19,8 @@ class UserEventSubscriber
     /**
      * Handle user logout events.
      */
-    public function onUserLogout($event) {
+    public function onUserLogout($event)
+    {
         Auth::user()->last_logout = Carbon::now();
         Auth::user()->save();
     }
@@ -40,5 +42,4 @@ class UserEventSubscriber
             'Jameron\Regulator\Listeners\UserEventSubscriber@onUserLogout'
         );
     }
-
 }

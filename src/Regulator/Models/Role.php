@@ -61,10 +61,10 @@ class Role extends Model
      *
      * @return Daylight\Regulator\Models\User
      */
-	public function users()
-	{
-		return $this->belongsToMany(config('regulator.user.model'), $this->table_prefix . 'regulator_role_user');
-	}
+    public function users()
+    {
+        return $this->belongsToMany(config('regulator.user.model'), $this->table_prefix . 'regulator_role_user');
+    }
 
     /**
      * Assign an user a role

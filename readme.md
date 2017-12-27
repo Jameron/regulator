@@ -5,7 +5,7 @@ This package has been built to work with Laravel 5.4.33 and later. Some older ve
 1) Add the package to your compose.json file:
 
 ```json
-    "jameron/regulator": "1.0.*",
+    "jameron/regulator": "*",
 ```
 
 ```
