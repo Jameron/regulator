@@ -145,7 +145,7 @@ protected $subscribe = [
    .js('resources/assets/regulator/js/RegulatorDependencies.js', 'public/js/Regulator.js')
    .sass('resources/assets/regulator/sass/regulator.scss', 'public/css')
 ```
-10) Make sure you have vuex install
+10) Make sure you have vuex installed, it is used with the role permissions component.
 
 ```
 npm install vuex --save
