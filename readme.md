@@ -1,4 +1,15 @@
-This package has been built to work with Laravel 5.4.33 and later. Some older versions may not be compatible. Let's see if we can't get you up and running in 10 steps. If you are starting fresh, create your laravel application first thing:
+This package has been built to work with Laravel 5.4.33 and later. 
+
+This package contains methods and traits that can be used with your project, and optinoally you can use the views for your UX. If you are using the admin views, make sure you also require the admin package found here: [Admin package](https://github.com/jameron/admin)
+
+Your composer file would look like so:
+
+```js
+        "jameron/admin": "*",
+        "jameron/regulator": "*",
+```
+
+Some older versions may not be compatible. Let's see if we can't get you up and running in 10 steps. If you are starting fresh, create your laravel application first thing:
 
     composer create-project --prefer-dist laravel/laravel blog
 
