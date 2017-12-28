@@ -12,6 +12,12 @@
                     <input type="hidden" name="_method" value="PATCH">
                     @include('regulator::partials.forms.permission', ['submitButtonText' => 'Update', 'mode'=>'edit'])
                 </form>
+                @if(Gate::check('delete_permissions'))
+                    @include('partials._delete_button', [
+                        'route'=> config('regulator.permission.resource_route') . '/' . ($permission->id),
+                        'button_text'=>''
+                    ])
+                @endif
             @endif
         @endslot
     @endcomponent

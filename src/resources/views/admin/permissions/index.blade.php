@@ -1,56 +1,70 @@
 @extends('admin::layouts.app')
 @section('content')
-    <div class="container">
-    <div class="row justify-content-md-left">
-        <div class="col-12 col-md-12 col-lg-12">
-            <div class="card @if(config('admin.theme')=='dark')card-dark @endif" style="margin-top: 1rem;">
-                <h4 class="card-header">
-                    {{ config('regulator.display.permissions.card-header') }}
-                </h4>
-                <div class="card-body">
-                    <h4 class="card-title"> {{ config('regulator.display.permissions.card-title') }} </h4>
-                    <h6 class="card-subtitle mb-2 text-muted"> {{ config('regulator.display.permissions.card_subtitle') }} </h6>
-                    @if(config('regulator.display.permissions.search')['show'])
-                        @include('partials._search', ['search'=> config('regulator.display.permissions.search') ])
+    @component('admin::partials._card')
+        @slot('header')
+            {{ config('regulator.permission.index.card-header') }}
+        @endslot
+        @slot('body')
+            @if(config('regulator.permission.index.search')['show'])
+                <div class="row">
+                    <div class="col-md-9">
+                @include('admin::partials._search', ['search'=> config('regulator.permission.index.search') ])
+                    <p class="subtle float-right mt-2">Displaying {!! $items->firstItem() !!} - {!! $items->lastItem() !!} of  {!! $items->total() !!} total</p>
+                    @if(!empty($search_string))
+                        <a href="{{ url(config('regulator.permission.resource_route')) }}">Clear Search</a>
                     @endif
-                    @include('admin::partials.utils._success')
-                        <a href="{{ url('/admin/permissions/create') }}" class="btn btn-primary">Create</a>
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    @include('admin::partials.utils._sortable_column', 
-                                    [
-                                        'th' => 'Name', 
-                                        'url' => url('admin/permissions?sortBy=name&search=' . $search), 
-                                        'column' => 'name' 
-                                        ])
-                                        <th>Edit</th>
-                                        <th>Delete</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($permissions as $permission)
-                                    <tr>
-                                        <td><a href="{{ url('admin/permissions/' . $permission->id . '/edit' ) }}">{{ $permission->name }}</a></td>
-                                        <td><a href="{{ url('admin/permissions/' . $permission->id . '/edit' ) }}">Edit</a></td>
-                                        <td>
-                                            <form action="{{ url('/admin/permissions/' . $permission->id) }}" method="POST">
-                                                <input type="hidden" name="_method" value="DELETE"> 
-                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                <button type="submit" class="btn btn-link"><span>Delete</span></button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <div class="table-footer">
-                            {!! $permissions->appends(['sortBy' => $sort_by, 'order' => $order])->render() !!}
-                        </div>
                     </div>
                 </div>
+            @endif
+            <table class="table table-hover table-responsive table-striped">
+                <thead>
+                    <tr>
+                        @foreach($columns as $key => $column)
+                            @include('admin::partials.utils._sortable_column', 
+                            [
+                                'th' => $column['label'], 
+                                'url' => url(config('regulator.role.resource_route') . '?sortBy=' . $column['column'] . '&search=' . $search_string), 
+                                'column' => $column['column']
+                                ])
+                            @endforeach
+                            @include('admin::partials.utils._sortable_column', 
+                            [
+                                'th' => 'Option', 
+                                'url' => null, 
+                                'column' => null 
+                            ])
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($items as $item)
+                        <tr>
+                            @foreach($columns as $key => $column)
+                                <td data-column="{{ $column['column'] }}">
+                                    @if(isset($column['link']))
+                                        @if(isset($column['link']) && isset($column['link']['resource_route']))
+                                            <a href="{{ url($column['link']['resource_route'] . '/' . $item->{$column['link']['id_column']} ) }}">{{ $item->{$column['column']}  }}</a>
+                                        @endif
+                                    @else
+                                        {!! $item->{$column['column']}  !!}
+                                    @endif
+                                </td>
+                            @endforeach
+                            <td>
+                                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                    <div class="btn-group mr-2" role="group" aria-label="First group">
+                                        @if(Gate::check('update_roles'))
+                                            <a href="{{ url( config('regulator.permission.resource_route') . '/' . $item->id . '/edit' ) }}" class="btn btn-sm btn-secondary"><i class="fa fa-edit"></i></a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <div class="table-footer">
+                {!! $items->appends(['sortBy' => $sort_by, 'order' => $order])->render() !!}
             </div>
-        </div>
-    </div>
-    </div>
+        @endslot
+    @endcomponent
 @endsection

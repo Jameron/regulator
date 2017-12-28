@@ -8,5 +8,5 @@
 </div>
 <p class="button-group">
     <button type="submit" class="btn btn-primary">Save</button>
-	<a href="{{ url('admin/permissions') }}" class="btn-alt">Cancel</a>
+	<a href="{{ url(config('regulator.permission.resource_route')) }}" class="btn-alt">Cancel</a>
 </p>

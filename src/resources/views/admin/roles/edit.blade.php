@@ -11,6 +11,12 @@
                     <input type="hidden" name="_method" value="PATCH">
                     @include('regulator::partials.forms.role', ['submitButtonText' => 'Update', 'mode'=>'edit'])
                 </form>
+                @if(Gate::check('delete_roles'))
+                    @include('partials._delete_button', [
+                        'route'=> config('regulator.role.resource_route') . '/' . ($role->id),
+                        'button_text'=>''
+                    ])
+                @endif
             @endif
         @endslot
     @endcomponent

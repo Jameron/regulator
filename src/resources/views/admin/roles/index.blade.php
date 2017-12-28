@@ -53,10 +53,7 @@
                                 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                                     <div class="btn-group mr-2" role="group" aria-label="First group">
                                         @if(Gate::check('update_roles'))
-                                            <a href="{{ url( config('regulator.role.resource_route') . $item->id . '/edit' ) }}" class="btn btn-sm btn-secondary"><i class="fa fa-edit"></i></a>
-                                        @endif
-                                        @if(Gate::check('delete_roles') )
-                                            <a href="{{ url( config('regulator.role.resource_route') . $item->id . '/delete' ) }}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                                            <a href="{{ url( config('regulator.role.resource_route') . '/' . $item->id . '/edit' ) }}" class="btn btn-sm btn-secondary"><i class="fa fa-edit"></i></a>
                                         @endif
                                     </div>
                                 </div>
