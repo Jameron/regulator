@@ -1,4 +1,15 @@
-This package has been built to work with Laravel 5.4.33 and later. Some older versions may not be compatible. Let's see if we can't get you up and running in 10 steps. If you are starting fresh, create your laravel application first thing:
+This package has been built to work with Laravel 5.4.33 and later. (Some older versions of Laravel may not be compatible.)
+
+This package contains methods and traits that can be used with your project, and optionally you can use the views for your UX. If you are using the admin views, make sure you also require the admin package found here: [Admin package](https://github.com/jameron/admin)
+
+Your composer file would look like so:
+
+```js
+        "jameron/admin": "*",
+        "jameron/regulator": "*",
+```
+
+Let's see if we can't get you up and running in 10 steps. If you are starting fresh, create your laravel application first thing:
 
     composer create-project --prefer-dist laravel/laravel blog
 
@@ -110,10 +121,14 @@ You will also want these methods on your User model
 
 ```
 
-8) Make sure you are a pro and use database for your sessions:
-```php artisan session:table
+8) If you setup you project to use the database driver for sessions you can see when users are logged in or not. To set up the database session driver:
 
-php artisan migrate```
+```bash
+
+php artisan session:table
+
+php artisan migrate
+```
 
 9) Subscribe to the login and logout events to update the users last_login and last_logout timestamp on the user model. Add this to app/Providers/EventServiceProvider. 
 
@@ -130,7 +145,7 @@ protected $subscribe = [
    .js('resources/assets/regulator/js/RegulatorDependencies.js', 'public/js/Regulator.js')
    .sass('resources/assets/regulator/sass/regulator.scss', 'public/css')
 ```
-10) Make sure you have vuex install
+10) Make sure you have vuex installed, it is used with the role permissions component.
 
 ```
 npm install vuex --save
