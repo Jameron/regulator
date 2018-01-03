@@ -22,6 +22,7 @@ $regulator = [
                 'placeholder' => 'Search users',
                 'button_text' => 'Locate',
                 'icon' => 'search',
+                'route' => '/users/search',
             ],
             'online_status_identifier' => '<span class="online"></span>',
             'offline_status_identifier' => '<span class="offline"></span>'

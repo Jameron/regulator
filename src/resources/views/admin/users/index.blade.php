@@ -8,10 +8,10 @@
             @if(config('regulator.user.index.search')['show'])
                 <div class="row">
                     <div class="col-md-9">
-                @include('partials._search', ['search'=> config('regulator.display.users.search') ])
+                    @include('partials._search', ['search'=> config('regulator.user.index.search') ])
                     <p class="subtle float-right mt-2">Displaying {!! $items->firstItem() !!} - {!! $items->lastItem() !!} of  {!! $items->total() !!} total</p>
                     @if(!empty($search_string))
-                        <a href="{{ url($resource_route) }}">Clear Search</a>
+                        <a href="{{ url(config('regulator.user.resource_route')) }}">Clear Search</a>
                     @endif
                     </div>
                 </div>
