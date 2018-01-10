@@ -71,7 +71,10 @@ trait HasRoles
     public function assignRole($role)
     {
         $role = Role::where('slug', $role)->firstOrFail();
-        $this->roles()->save($role);
+        if(!$this->roles->contains($role->id)) {
+            $this->roles()->save($role);
+        }
         return $this;
+        
     }
 }
