@@ -15,7 +15,7 @@ use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 
 class RoleController extends Controller
 {
-    public $columns;
+    public $columns = [];
 
     public function getIndexViewColumns()
     {
@@ -66,7 +66,25 @@ class RoleController extends Controller
         $roles = $roles->paginate(config('admin.paginate.count'));
 
         $data = [];
-        $data['search_string'] = $search;
+        $data['search'] = [
+            'show' => config('regulator.role.index.search')['show'],
+            'placeholder' => 'Search roles by name',
+            'button_text' => 'Search',
+			'icon' => 'search',
+            'route' => '/roles/search',
+            'string' => $search
+        ];
+        
+        $data['create_button'] = [
+            'text'  => 'Create System',
+            'route' => '/roles/create'
+        ];
+
+        $data['resource_route'] = config('regulator.role.resource_route');
+        $data['permissions'] = [
+            'update' => 'update_roles',
+            'delete' => 'delete_roles'
+        ];
         $data['sort_by'] = $sort_by;
         $data['order'] = $order;
         $data['items'] = $roles;
