@@ -253,11 +253,26 @@ class UserController extends Controller
         }
 
         $data = [];
-        $data['search_string'] = $search;
+        $data['search'] = [
+            'show' => config('invitations.index.search')['show'],
+            'placeholder' => 'Search users by email',
+            'button_text' => 'Search',
+			'icon' => 'search',
+            'route' => '/users/search',
+            'string' => $search
+        ];
+        
+        $data['create_button'] = config('regulator.user.create.button');
+        $data['resource_route'] = config('regulator.user.resource_route');
+        $data['permissions'] = [
+            'create' => 'create_users',
+            'read' => 'read_users',
+            'update' => 'update_users',
+            'delete' => 'delete_users'
+        ];
         $data['sort_by'] = $sort_by;
         $data['order'] = $order;
         $data['items'] = $users;
-        $data['resource_route'] = '/admin/users';
         $data['columns'] = $this->getIndexViewColumns();
 
         return view('regulator::admin.users.index')
@@ -317,7 +332,7 @@ class UserController extends Controller
 
         $data = [];
         $data['item'] = $user;
-        $data['hide_attributes'] = ['id','password','remember_token'];
+        $data['hide_attributes'] = config('regulator.user.show.hide_attributes');
         $data['attributes'] = array_diff_key($user->getAttributes(), array_flip($data['hide_attributes']));
         $data['title'] = 'User Info';
         $data['permissions'] = [

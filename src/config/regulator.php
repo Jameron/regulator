@@ -22,11 +22,26 @@ $regulator = [
                 'placeholder' => 'Search users',
                 'button_text' => 'Locate',
                 'icon' => 'search',
-                'route' => '/users/search',
+                'route' => '/users/search'
             ],
             'online_status_identifier' => '<span class="online"></span>',
             'offline_status_identifier' => '<span class="offline"></span>'
         ],
+        'create' => [
+            'enabled' => true,
+            'button' => [
+                'text'  => 'Create User',
+                'route' => '/users/create'
+            ],
+        ],
+        'show'=>[
+            'hide_attributes' => [
+                'id',
+                'password',
+                'remember_token',
+                'installer_company_id'
+            ]
+        ]
     ],
     'role' => [
         'resource_route' => 'roles',
