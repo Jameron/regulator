@@ -2,7 +2,7 @@
 @section('content')
     @component('admin::partials._card')
         @slot('header')
-            {{ config('invitations.display.card-header') }}
+            {{ config('regulator.user.index.card-header') }}
         @endslot
         @slot('body')
             @include('admin::partials.utils._index', [

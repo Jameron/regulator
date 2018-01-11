@@ -313,7 +313,7 @@ class UserController extends Controller
         $request->roles = ($request->get('roles')) ? $request->get('roles') : [];
         $user->roles()->sync($request->roles);
 
-        return redirect('/admin/users')
+        return redirect(config('regulator.user.resource_route'))
             ->with('success_message', 'Saved');
     }
 
@@ -389,7 +389,7 @@ class UserController extends Controller
         $request->roles = ($request->get('roles')) ? $request->get('roles') : [];
         $user->roles()->sync($request->roles);
 
-        return redirect('/admin/users')
+        return redirect(config('regulator.user.resource_route'))
             ->with('success_message', 'Saved');
     }
 
@@ -406,7 +406,8 @@ class UserController extends Controller
 
         if ($user) {
             $user->delete();
-            return redirect('admin/users')->with('success_message', 'User was deleted.');
+                return redirect(config('regulator.user.resource_route'))
+                ->with('success_message', 'User was deleted.');
         }
     }
 
