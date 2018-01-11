@@ -6,7 +6,7 @@
         @endslot
         @slot('body')
             @if(Gate::check('update_users') )
-                    <form action="{{ url(config('regulator.user.resource_route') . '/' . $role->id) }}" method="POST">
+                    <form action="{{ url(config('regulator.user.resource_route') . '/' . $user->id) }}" method="POST">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="_method" value="PATCH">
                     @include('regulator::partials.forms.user', ['submitButtonText' => 'Update', 'mode'=>'edit'])
