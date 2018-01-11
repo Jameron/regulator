@@ -319,6 +319,7 @@ class UserController extends Controller
         $data['item'] = $user;
         $data['hide_attributes'] = ['id','password','remember_token'];
         $data['attributes'] = array_diff_key($user->getAttributes(), array_flip($data['hide_attributes']));
+        $data['title'] = 'User Info';
         $data['permissions'] = [
             'create' => 'create_users',   
             'read' => 'read_users',   
