@@ -26,12 +26,8 @@ class UserController extends Controller
                     'label' => 'ID',
                 ],
                 [
-                    'column' => 'first_name',
-                    'label' => 'First Name'
-                ],
-                [
-                    'column' => 'last_name',
-                    'label' => 'Last name'
+                    'column' => 'name',
+                    'label' => 'Name'
                 ],
                 [
                     'column' => 'email',
@@ -128,26 +124,12 @@ class UserController extends Controller
 
                     break;
 
-                case 'first_name':
+                case 'name':
 
                     $user = resolve('App\User');
                     $users = $user->select('users.*')
                                     ->with('roles')
-                                    ->orderBy('users.first_name', $order)
-                                    ->paginate(20);
-
-                    if (config('session.driver') == 'database') {
-                        $users = $this->setOnlineStatus($users);
-                    }
-
-                    break;
-
-                case 'last_name':
-
-                    $user = resolve('App\User');
-                    $users = $user->select('users.*')
-                                    ->with('roles')
-                                    ->orderBy('users.last_name', $order)
+                                    ->orderBy('users.name', $order)
                                     ->paginate(20);
 
                     if (config('session.driver') == 'database') {
