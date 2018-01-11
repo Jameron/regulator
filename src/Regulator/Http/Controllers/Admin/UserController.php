@@ -310,7 +310,24 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = resolve('App\User');
+        $user = $user->where('id', $id)
+            ->with('roles')
+            ->first();
+
+        $data = [];
+        $data['item'] = $user;
+        $data['hide_attributes'] = ['id','password','remember_token','installer_company_id'];
+        $data['attributes'] = array_diff_key($user->getAttributes(), array_flip($data['hide_attributes']));
+        $data['permissions'] = [
+            'create' => 'create_users',   
+            'read' => 'read_users',   
+            'update' => 'update_users',   
+            'delete' => 'delete_users',   
+        ];
+
+        return view('regulator::admin.users.show')
+            ->with($data);
     }
 
     /**
