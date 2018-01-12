@@ -41,6 +41,13 @@ $regulator = [
             'card-header' => 'Roles',
             'card-title' => '',
             'card-subtitle' => '',
+            'search' => [
+                'show' => true,
+                'placeholder' => 'Search roles',
+                'button_text' => 'Locate',
+                'icon' => 'search',
+                'route' => '/roles/search'
+            ],
         ],
     ],
     'permission' => [
@@ -49,6 +56,13 @@ $regulator = [
             'card-header' => 'Permissions',
             'card-title' => '',
             'card-subtitle' => '',
+            'search' => [
+                'show' => true,
+                'placeholder' => 'Search permissions',
+                'button_text' => 'Locate',
+                'icon' => 'search',
+                'route' => '/permissions/search'
+            ],
         ],
     ]
 ];
@@ -57,7 +71,8 @@ $regulator['roles'] =
     [
         'admin' => [
             'loginRedirectURI' => 'dash',
-            'columns' => [
+            'roles_columns' => 
+            [
                 [
                     'column' => 'id',
                     'label' => 'ID',
@@ -69,6 +84,17 @@ $regulator['roles'] =
                 [
                     'column' => 'slug',
                     'label' => 'Slug'
+                ]
+            ],
+            'permissions_columns' => 
+            [
+                [
+                    'column' => 'id',
+                    'label' => 'ID',
+                ],
+                [
+                    'column' => 'name',
+                    'label' => 'Name'
                 ]
             ]
         ],

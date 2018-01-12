@@ -20,7 +20,7 @@ class RoleController extends Controller
     public function getIndexViewColumns()
     {
         if(isset(config('regulator.roles')[Auth::user()->roles()->first()->slug])) {
-            $this->columns = collect(config('regulator.roles')[Auth::user()->roles()->first()->slug]['columns']);
+            $this->columns = collect(config('regulator.roles')[Auth::user()->roles()->first()->slug]['roles_columns']);
         }
         return $this->columns;
     }

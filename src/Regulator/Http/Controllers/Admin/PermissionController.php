@@ -18,19 +18,9 @@ class PermissionController extends Controller
 
     public function getIndexViewColumns()
     {
-        if (Auth::user()->roles()->first()->slug=='admin') {
-            $this->columns = collect([
-                [
-                    'column' => 'id',
-                    'label' => 'ID',
-                ],
-                [
-                    'column' => 'name',
-                    'label' => 'Name'
-                ]
-            ]);
+        if(isset(config('regulator.roles')[Auth::user()->roles()->first()->slug])) {
+            $this->columns = collect(config('regulator.roles')[Auth::user()->roles()->first()->slug]['permissions_columns']);
         }
-
         return $this->columns;
     }
 
@@ -59,8 +49,29 @@ class PermissionController extends Controller
         }
 
         $permissions = $permissions->paginate(config('admin.paginate.count'));
+
         $data = [];
-        $data['search_string'] = $search;
+        $data['search'] = [
+            'show' => config('regulator.permission.index.search')['show'],
+            'placeholder' => 'Search permissions by name',
+            'button_text' => 'Search',
+			'icon' => 'search',
+            'route' => '/permissions/search',
+            'string' => $search
+        ];
+        
+        $data['create_button'] = [
+            'text'  => 'Create System',
+            'route' => '/permissions/create'
+        ];
+
+        $data['resource_route'] = config('regulator.role.resource_route');
+        $data['permissions'] = [
+            'create' => 'create_roles',
+            'read' => 'read_roles',
+            'update' => 'update_roles',
+            'delete' => 'delete_roles'
+        ];
         $data['sort_by'] = $sort_by;
         $data['order'] = $order;
         $data['items'] = $permissions;
@@ -70,22 +81,11 @@ class PermissionController extends Controller
             ->with($data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('regulator::admin.permissions.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(PermissionRequest $request)
     {
         $permission = new Permission();
@@ -97,23 +97,11 @@ class PermissionController extends Controller
             ->with('success_message', 'Saved');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $permission = Permission::where('id', $id)
@@ -122,13 +110,6 @@ class PermissionController extends Controller
         return view('regulator::admin.permissions.edit', compact('permission'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(PermissionRequest $request, $id)
     {
         $permission = Permission::where('id', $id)
@@ -141,12 +122,6 @@ class PermissionController extends Controller
             ->with('success_message', 'Saved');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $permission = Permission::find($id);
