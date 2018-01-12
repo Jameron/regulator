@@ -19,23 +19,9 @@ class RoleController extends Controller
 
     public function getIndexViewColumns()
     {
-        if (Auth::user()->roles()->first()->slug=='admin') {
-            $this->columns = collect([
-                [
-                    'column' => 'id',
-                    'label' => 'ID',
-                ],
-                [
-                    'column' => 'name',
-                    'label' => 'Name'
-                ],
-                [
-                    'column' => 'slug',
-                    'label' => 'Slug'
-                ]
-            ]);
+        if(isset(config('regulator.roles')[Auth::user()->roles()->first()->slug])) {
+            $this->columns = collect(config('regulator.roles')[Auth::user()->roles()->first()->slug]['columns']);
         }
-
         return $this->columns;
     }
 

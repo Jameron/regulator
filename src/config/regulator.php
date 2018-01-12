@@ -2,14 +2,6 @@
 
 $regulator = [
     'db_table_prefix' => '',
-    'roles' => [
-        'admin' => [
-            'loginRedirectURI' => 'dash',
-        ],
-        'user' => [
-            'loginRedirectURI' => 'dash',
-        ],
-    ],
     'user' => [
         'model' => \App\Models\User::class,
         'resource_route' => 'users',
@@ -61,4 +53,27 @@ $regulator = [
     ]
 ];
 
+$regulator['roles'] =
+    [
+        'admin' => [
+            'loginRedirectURI' => 'dash',
+            'columns' => [
+                [
+                    'column' => 'id',
+                    'label' => 'ID',
+                ],
+                [
+                    'column' => 'name',
+                    'label' => 'Name'
+                ],
+                [
+                    'column' => 'slug',
+                    'label' => 'Slug'
+                ]
+            ]
+        ],
+        'user' => [
+            'loginRedirectURI' => 'dash',
+        ]
+    ];
 return $regulator;
