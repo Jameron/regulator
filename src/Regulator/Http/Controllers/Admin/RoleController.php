@@ -70,8 +70,10 @@ class RoleController extends Controller
 
         $data['resource_route'] = config('regulator.role.resource_route');
         $data['permissions'] = [
-            'update' => 'update_roles',
-            'delete' => 'delete_roles'
+            'create'    => 'create_roles',
+            'read'      => 'read_roles',
+            'update'    => 'update_roles',
+            'delete'    => 'delete_roles'
         ];
         $data['sort_by'] = $sort_by;
         $data['order'] = $order;
