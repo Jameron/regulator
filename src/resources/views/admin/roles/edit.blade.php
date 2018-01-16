@@ -14,7 +14,7 @@
                 @if(Gate::check('delete_roles'))
                     @include('partials._delete_button', [
                         'route'=> config('regulator.role.resource_route') . '/' . ($role->id),
-                        'button_text'=>''
+                        'button_text'=>'Delete Role'
                     ])
                 @endif
             @endif

@@ -15,7 +15,7 @@
                 @if(Gate::check('delete_permissions'))
                     @include('partials._delete_button', [
                         'route'=> config('regulator.permission.resource_route') . '/' . ($permission->id),
-                        'button_text'=>''
+                        'button_text'=>'Delete Permission'
                     ])
                 @endif
             @endif
