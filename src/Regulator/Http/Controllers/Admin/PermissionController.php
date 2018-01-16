@@ -64,6 +64,8 @@ class PermissionController extends Controller
             'text'  => 'Create System',
             'route' => '/permissions/create'
         ];
+        $data['show_update'] = true;
+        $data['show_delete'] = false;
 
         $data['resource_route'] = config('regulator.role.resource_route');
         $data['permissions'] = [

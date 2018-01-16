@@ -245,6 +245,8 @@ class UserController extends Controller
         ];
         
         $data['create_button'] = config('regulator.user.create.button');
+        $data['show_update'] = true;
+        $data['show_delete'] = false;
         $data['resource_route'] = config('regulator.user.resource_route');
         $data['permissions'] = [
             'create' => 'create_users',
