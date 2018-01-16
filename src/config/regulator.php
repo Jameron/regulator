@@ -22,6 +22,7 @@ $regulator = [
         'create' => [
             'enabled' => true,
             'button' => [
+                'show' => true,
                 'text'  => 'Create User',
                 'route' => '/users/create'
             ],

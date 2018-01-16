@@ -62,6 +62,7 @@ class RoleController extends Controller
         ];
         
         $data['create_button'] = [
+            'show' => true,
             'text'  => 'Create System',
             'route' => '/roles/create'
         ];

@@ -61,6 +61,7 @@ class PermissionController extends Controller
         ];
         
         $data['create_button'] = [
+                'show' => true,
             'text'  => 'Create System',
             'route' => '/permissions/create'
         ];
