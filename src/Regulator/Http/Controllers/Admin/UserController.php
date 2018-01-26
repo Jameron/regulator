@@ -285,6 +285,7 @@ class UserController extends Controller
         $user = resolve('App\User');
         $user->name = $request->get('name');
         $user->email = $request->get('email');
+        $user->disabled = ($request->get('disabled')) ? 1 : 0;
 
         if ($request->get('company_id')) {
             $user->company_id = $request->get('company_id');
@@ -365,9 +366,7 @@ class UserController extends Controller
         if (!empty($request->get('password'))) {
             $user->password = bcrypt($request->get('password'));
         }
-        if ($request->get('company_id')) {
-            $user->company_id = $request->get('company_id');
-        }
+        $user->disabled = ($request->get('disabled')) ? 1 : 0;
         $user->save();
 
         $request->roles = ($request->get('roles')) ? $request->get('roles') : [];

@@ -45,7 +45,16 @@
     </fieldset>
 </div>
 @endif
+
+<div class="form-group">
+    <div class="checkbox">
+        <label for="disabled">
+            <input type="checkbox" name="disabled" value="1"  id="disabled" {{ (isset($user) && $user->disabled ) ? 'checked' : ''}}>
+                    Disabled
+        </label>
+    </div>
+</div>
 <p class="button-group">
     <button type="submit" class="btn btn-primary">Save</button>
-	<a href="{{ url('admin/users') }}" class="btn-alt">Cancel</a>
+    <a href="{{ url(config('regulator.user.resource_route')) }}" class="btn-alt">Cancel</a>
 </p>
