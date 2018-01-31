@@ -11,12 +11,12 @@
                     <input type="hidden" name="_method" value="PATCH">
                     @include('regulator::partials.forms.user', ['submitButtonText' => 'Update', 'mode'=>'edit'])
                 </form>
-                @if(Gate::check('delete_users'))
+                @can('delete_users')
                     @include('partials._delete_button', [
-                        'route'=> config('regulator.permission.resource_route') . '/' . ($user->id),
+                        'route'=> config('regulator.user.resource_route') . '/' . ($user->id),
                         'button_text'=>'Delete User'
                     ])
-                @endif
+                @endcan
             @endif
         @endslot
     @endcomponent
